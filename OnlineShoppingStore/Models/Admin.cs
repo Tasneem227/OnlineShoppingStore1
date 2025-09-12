@@ -15,5 +15,4 @@ public class Admin
     public ICollection<Category>? categories { get; set; } = new List<Category>();
 
 
-
 }
