@@ -8,11 +8,11 @@ public class CartController(ICartItemRepository _CartItemRepository,
     private readonly ICartItemRepository CartItemRepository = _CartItemRepository;
     private readonly ICartRepository _CartRepository = cartRepository;
     private readonly IProductRepository _ProductRepository = productRepository;
-
-    public IActionResult ShowAllItems()
+    public IActionResult ShowCartItems(int CartId)
     {
-        var CartItemList= CartItemRepository.ShowCart();
-        return View(CartItemList);
+        CartId = 1;
+        var CartItemList= CartItemRepository.ShowCartItems(CartId);
+        return View("ShowCart", CartItemList);
     }
     public IActionResult AddToCart(int ItemId)
     {
@@ -20,4 +20,6 @@ public class CartController(ICartItemRepository _CartItemRepository,
         _CartRepository.SaveChanges();
         return NoContent() ;
     }
+   
 }
+

@@ -8,6 +8,10 @@ public class CartItemRepository: ICartItemRepository
     {
         context = _context;
     }
-    public List<CartItem> ShowCart()=> context.CartItems.ToList();
 
+    public List<CartItem> ShowCartItems(int cartId)
+    {
+        var CartItems= context.CartsItems.Where(i=>i.CartId==cartId).ToList();
+        return CartItems;
+    }
 }

@@ -143,16 +143,37 @@
 								<div class="col-md-6 col-lg-4 col-product">
 									<figure>
 										<img class="rounded-corners img-fluid" src="~/images/Products/@item.ImageUrl">
-										@*********************************************************************************@
 										<figcaption>
 											<div class="thumb-overlay">
-												<a class="btn btn-outline-success" title="More Info" asp-action="AddToCart" asp-controller="Cart" asp-route-ItemId="@item.ProductId">
-                                                    Add To Cart
-												</a>
+												<button class="btn btn-outline-success"
+														onclick="addToCart(@item.ProductId, this)">
+													Add To Cart
+												</button>
 											</div>
 										</figcaption>
-										@*********************************************************************************@
 									</figure>
+
+									<script>
+										function addToCart(productId, btn) {
+											fetch(`/Cart/AddToCart?ItemId=${productId}`, {
+												method: "POST"
+											})
+											.then(response => {
+												if (response.ok) {
+													// Change text to success
+													btn.innerText = "Added Successfully ✅";
+
+													// After 2 seconds, reset back
+													setTimeout(() => {
+														btn.innerText = "Add To Cart";
+													}, 2000);
+												} else {
+													btn.innerText = "Error ❌";
+												}
+											});
+										}
+									</script>
+
 									<h4 class="mb-1"><a href="item.html">@item.Name</a></h4>
 									<p><span class="emphasis">@item.Price</span></p>
 								</div>

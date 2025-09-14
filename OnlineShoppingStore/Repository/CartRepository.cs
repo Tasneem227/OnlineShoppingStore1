@@ -18,7 +18,7 @@ public class CartRepository:ICartRepository
             ProductId = productId
             
         };
-        _Context.CartItems.Add(cartItem);
+        _Context.CartsItems.Add(cartItem);
     }
     public void SaveChanges() =>  _Context.SaveChanges();
 }

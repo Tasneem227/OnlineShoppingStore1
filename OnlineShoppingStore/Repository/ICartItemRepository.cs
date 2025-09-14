@@ -2,6 +2,6 @@
 
 public interface ICartItemRepository
 {
-    public List<CartItem> ShowCart() ;
+    public List<CartItem> ShowCartItems(int cartId) ;
 
 }

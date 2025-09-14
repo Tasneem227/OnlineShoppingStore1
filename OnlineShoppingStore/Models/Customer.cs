@@ -11,8 +11,7 @@ public class Customer
     public Gender Gender { get; set; }
     public string Address { get; set; }
     public string PhoneNumber { get; set; }
-    public int CartId { get; set; }
-    public virtual Cart? Cart { get; set; }
+
     public virtual ICollection<Order>? Orders { get; set; } = new List<Order>();
     public virtual ICollection<Review>? Reviews { get; set; } = new List<Review>();
     
