@@ -8,26 +8,29 @@ namespace OnlineShoppingStore.Models
         {
 
         }
-        public DbSet<Admin> Admin { get; set; }
-
-        public DbSet<Cart> Cart { get; set; }
-        public DbSet<Order> Order { get; set; }
-       public DbSet<CartItem> CartItem { get; set; }
-
-        public DbSet<Category> Category { get; set; }
-
-        public DbSet<Customer> Customer { get; set; }
-        public DbSet<OrderItem> OrderItem { get; set; }
-        public DbSet<Discount> Discount { get; set; }
-        public DbSet<Product> Product { get; set; }
-
-        public DbSet<Review> Review { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public ApplicationDbContext(DbContextOptions options) : base(options)
         {
-            optionsBuilder.UseSqlServer("Data Source=SHAHDMAHMOUD;Initial Catalog=Online_Shopping_Store;Integrated Security=True;Trust Server Certificate=True");
-            base.OnConfiguring(optionsBuilder);
         }
+        public DbSet<Admin> Admins { get; set; }
+
+        public DbSet<Cart> Carts { get; set; }
+        public DbSet<Order> Orders { get; set; }
+       public DbSet<CartItem> CartsItems { get; set; }
+
+        public DbSet<Category> Categories { get; set; }
+
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<OrderItem> OrdersItems { get; set; }
+        public DbSet<Discount> Discounts { get; set; }
+        public DbSet<Product> Products { get; set; }
+
+        public DbSet<Review> Reviews { get; set; }
+
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlServer("Data Source=PC-1\\SQLEXPRESS;Initial Catalog=Online_Shopping_Store;Integrated Security=True;Trust Server Certificate=True");
+        //    base.OnConfiguring(optionsBuilder);
+        //}
 
 
 

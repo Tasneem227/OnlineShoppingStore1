@@ -1,3 +1,5 @@
+
+
 namespace OnlineShoppingStore
 {
     public class Program
@@ -8,6 +10,14 @@ namespace OnlineShoppingStore
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            {
+               options.UseSqlServer(builder.Configuration.GetConnectionString("cs"));
+            });
+            builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
+            builder.Services.AddScoped<IProductRepository, ProductRepository>();
+            builder.Services.AddScoped<ICartRepository, CartRepository>();
+
 
             var app = builder.Build();
 

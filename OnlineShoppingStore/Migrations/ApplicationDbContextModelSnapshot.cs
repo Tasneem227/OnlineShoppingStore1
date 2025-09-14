@@ -34,7 +34,52 @@ namespace OnlineShoppingStore.Migrations
 
                     b.HasIndex("categoriesCategoryId");
 
-                    b.ToTable("AdminCategory");
+                    b.ToTable("AdminCategory", (string)null);
+                });
+
+            modelBuilder.Entity("AdminDiscount", b =>
+                {
+                    b.Property<int>("AdminsAdminId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DiscountsDiscountId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AdminsAdminId", "DiscountsDiscountId");
+
+                    b.HasIndex("DiscountsDiscountId");
+
+                    b.ToTable("AdminDiscount", (string)null);
+                });
+
+            modelBuilder.Entity("AdminProduct", b =>
+                {
+                    b.Property<int>("AdminsAdminId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductsProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AdminsAdminId", "ProductsProductId");
+
+                    b.HasIndex("ProductsProductId");
+
+                    b.ToTable("AdminProduct", (string)null);
+                });
+
+            modelBuilder.Entity("DiscountProduct", b =>
+                {
+                    b.Property<int>("DiscountsDiscountId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductsProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("DiscountsDiscountId", "ProductsProductId");
+
+                    b.HasIndex("ProductsProductId");
+
+                    b.ToTable("DiscountProduct", (string)null);
                 });
 
             modelBuilder.Entity("OnlineShoppingStore.Models.Admin", b =>
@@ -65,7 +110,7 @@ namespace OnlineShoppingStore.Migrations
 
                     b.HasKey("AdminId");
 
-                    b.ToTable("Admin");
+                    b.ToTable("Admin", (string)null);
                 });
 
             modelBuilder.Entity("OnlineShoppingStore.Models.Cart", b =>
@@ -84,7 +129,7 @@ namespace OnlineShoppingStore.Migrations
                     b.HasIndex("CustomerId")
                         .IsUnique();
 
-                    b.ToTable("Cart");
+                    b.ToTable("Cart", (string)null);
                 });
 
             modelBuilder.Entity("OnlineShoppingStore.Models.CartItem", b =>
@@ -110,7 +155,7 @@ namespace OnlineShoppingStore.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("CartItem");
+                    b.ToTable("CartItem", (string)null);
                 });
 
             modelBuilder.Entity("OnlineShoppingStore.Models.Category", b =>
@@ -131,7 +176,7 @@ namespace OnlineShoppingStore.Migrations
 
                     b.HasKey("CategoryId");
 
-                    b.ToTable("Category");
+                    b.ToTable("Category", (string)null);
                 });
 
             modelBuilder.Entity("OnlineShoppingStore.Models.Customer", b =>
@@ -169,7 +214,7 @@ namespace OnlineShoppingStore.Migrations
 
                     b.HasKey("CustomerId");
 
-                    b.ToTable("Customer");
+                    b.ToTable("Customer", (string)null);
                 });
 
             modelBuilder.Entity("OnlineShoppingStore.Models.Discount", b =>
@@ -179,9 +224,6 @@ namespace OnlineShoppingStore.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DiscountId"));
-
-                    b.Property<int?>("AdminId")
-                        .HasColumnType("int");
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
@@ -208,9 +250,7 @@ namespace OnlineShoppingStore.Migrations
 
                     b.HasKey("DiscountId");
 
-                    b.HasIndex("AdminId");
-
-                    b.ToTable("Discount");
+                    b.ToTable("Discount", (string)null);
                 });
 
             modelBuilder.Entity("OnlineShoppingStore.Models.Order", b =>
@@ -238,7 +278,7 @@ namespace OnlineShoppingStore.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("Order");
+                    b.ToTable("Order", (string)null);
                 });
 
             modelBuilder.Entity("OnlineShoppingStore.Models.OrderItem", b =>
@@ -267,7 +307,7 @@ namespace OnlineShoppingStore.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrderItem");
+                    b.ToTable("OrderItem", (string)null);
                 });
 
             modelBuilder.Entity("OnlineShoppingStore.Models.Product", b =>
@@ -277,9 +317,6 @@ namespace OnlineShoppingStore.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductId"));
-
-                    b.Property<int?>("AdminId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Brand")
                         .IsRequired()
@@ -308,11 +345,9 @@ namespace OnlineShoppingStore.Migrations
 
                     b.HasKey("ProductId");
 
-                    b.HasIndex("AdminId");
-
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Product");
+                    b.ToTable("Product", (string)null);
                 });
 
             modelBuilder.Entity("OnlineShoppingStore.Models.Review", b =>
@@ -345,7 +380,22 @@ namespace OnlineShoppingStore.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Review");
+                    b.ToTable("Review", (string)null);
+                });
+
+            modelBuilder.Entity("OrderProduct", b =>
+                {
+                    b.Property<int>("OrdersOrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductsProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("OrdersOrderId", "ProductsProductId");
+
+                    b.HasIndex("ProductsProductId");
+
+                    b.ToTable("OrderProduct", (string)null);
                 });
 
             modelBuilder.Entity("AdminCategory", b =>
@@ -359,6 +409,51 @@ namespace OnlineShoppingStore.Migrations
                     b.HasOne("OnlineShoppingStore.Models.Category", null)
                         .WithMany()
                         .HasForeignKey("categoriesCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AdminDiscount", b =>
+                {
+                    b.HasOne("OnlineShoppingStore.Models.Admin", null)
+                        .WithMany()
+                        .HasForeignKey("AdminsAdminId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OnlineShoppingStore.Models.Discount", null)
+                        .WithMany()
+                        .HasForeignKey("DiscountsDiscountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AdminProduct", b =>
+                {
+                    b.HasOne("OnlineShoppingStore.Models.Admin", null)
+                        .WithMany()
+                        .HasForeignKey("AdminsAdminId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OnlineShoppingStore.Models.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductsProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DiscountProduct", b =>
+                {
+                    b.HasOne("OnlineShoppingStore.Models.Discount", null)
+                        .WithMany()
+                        .HasForeignKey("DiscountsDiscountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OnlineShoppingStore.Models.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductsProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -383,7 +478,7 @@ namespace OnlineShoppingStore.Migrations
                         .IsRequired();
 
                     b.HasOne("OnlineShoppingStore.Models.Product", "Product")
-                        .WithMany()
+                        .WithMany("CartItems")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -391,13 +486,6 @@ namespace OnlineShoppingStore.Migrations
                     b.Navigation("Cart");
 
                     b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("OnlineShoppingStore.Models.Discount", b =>
-                {
-                    b.HasOne("OnlineShoppingStore.Models.Admin", null)
-                        .WithMany("Discounts")
-                        .HasForeignKey("AdminId");
                 });
 
             modelBuilder.Entity("OnlineShoppingStore.Models.Order", b =>
@@ -414,13 +502,13 @@ namespace OnlineShoppingStore.Migrations
             modelBuilder.Entity("OnlineShoppingStore.Models.OrderItem", b =>
                 {
                     b.HasOne("OnlineShoppingStore.Models.Order", "Order")
-                        .WithMany()
+                        .WithMany("OrderItems")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("OnlineShoppingStore.Models.Product", "Product")
-                        .WithMany()
+                        .WithMany("OrderItems")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -432,10 +520,6 @@ namespace OnlineShoppingStore.Migrations
 
             modelBuilder.Entity("OnlineShoppingStore.Models.Product", b =>
                 {
-                    b.HasOne("OnlineShoppingStore.Models.Admin", null)
-                        .WithMany("Products")
-                        .HasForeignKey("AdminId");
-
                     b.HasOne("OnlineShoppingStore.Models.Category", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
@@ -454,7 +538,7 @@ namespace OnlineShoppingStore.Migrations
                         .IsRequired();
 
                     b.HasOne("OnlineShoppingStore.Models.Product", "Product")
-                        .WithMany()
+                        .WithMany("Reviews")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -464,11 +548,19 @@ namespace OnlineShoppingStore.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("OnlineShoppingStore.Models.Admin", b =>
+            modelBuilder.Entity("OrderProduct", b =>
                 {
-                    b.Navigation("Discounts");
+                    b.HasOne("OnlineShoppingStore.Models.Order", null)
+                        .WithMany()
+                        .HasForeignKey("OrdersOrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Products");
+                    b.HasOne("OnlineShoppingStore.Models.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductsProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("OnlineShoppingStore.Models.Cart", b =>
@@ -483,10 +575,23 @@ namespace OnlineShoppingStore.Migrations
 
             modelBuilder.Entity("OnlineShoppingStore.Models.Customer", b =>
                 {
-                    b.Navigation("Cart")
-                        .IsRequired();
+                    b.Navigation("Cart");
 
                     b.Navigation("Orders");
+
+                    b.Navigation("Reviews");
+                });
+
+            modelBuilder.Entity("OnlineShoppingStore.Models.Order", b =>
+                {
+                    b.Navigation("OrderItems");
+                });
+
+            modelBuilder.Entity("OnlineShoppingStore.Models.Product", b =>
+                {
+                    b.Navigation("CartItems");
+
+                    b.Navigation("OrderItems");
 
                     b.Navigation("Reviews");
                 });
