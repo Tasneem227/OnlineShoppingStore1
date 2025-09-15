@@ -11,7 +11,7 @@ public class CartItemRepository: ICartItemRepository
 
     public List<CartItem> ShowCartItems(int cartId)
     {
-        var CartItems= context.CartsItems.Where(i=>i.CartId==cartId).ToList();
+        var CartItems= context.CartsItems.Include(i=>i.Product).Where(i=>i.CartId==cartId).ToList();
         return CartItems;
     }
 }
