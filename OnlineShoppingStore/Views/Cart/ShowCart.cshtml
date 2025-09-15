@@ -38,53 +38,32 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td data-th="Product">
-									<div class="row">
-										<div class="col-md-3 text-left">
-											<img src="images/placeholder-product.jpg" alt="" class="img-fluid">
+							@foreach (var item in Model)
+							{
+								<tr>
+									<td data-th="Product">
+										<div class="row">
+											<div class="col-md-3 text-left">
+												<img src="~/images/Products/@item.Product?.ImageUrl" alt="" class="img-fluid">
+											</div>
+											<div class="col-md-9 text-left mt-sm-2">
+												<h4>@item.Product?.Name</h4>
+												<p>@item.Product?.Description</p>
+											</div>
 										</div>
-										<div class="col-md-9 text-left mt-sm-2">
-											<h4>Product Name</h4>
-											<p>York &amp; Smith</p>
+									</td>
+									<td data-th="Price">@item.Product?.Price</td>
+									<td data-th="Quantity">
+										<input type="number" asp-for="@item.Quantity" class="form-control text-center" >
+									</td>
+									<td class="actions" data-th="">
+										<div class="text-right">
+											<button class="btn btn-white btn-md mb-2"><i class="fas fa-sync"></i></button>
+											<a asp-action="DeleteItem" asp-controller="Cart" asp-route-CartItemId="@item.Id" asp-route-cartid="@item.CartId" class="btn btn-white btn-md mb-2"><i class="fas fa-trash"></i></a>
 										</div>
-									</div>
-								</td>
-								<td data-th="Price">$49.00</td>
-								<td data-th="Quantity">
-									<input type="number" class="form-control text-center" value="1">
-								</td>
-								<td class="actions" data-th="">
-									<div class="text-right">
-										<button class="btn btn-white btn-md mb-2"><i class="fas fa-sync"></i></button>
-										<button class="btn btn-white btn-md mb-2"><i class="fas fa-trash"></i></button>
-									</div>
-								</td>
-							</tr>
-							
-							<tr>
-								<td data-th="Product">
-									<div class="row">
-										<div class="col-md-3 text-left">
-											<img src="images/placeholder-product.jpg" alt="" class="img-fluid">
-										</div>
-										<div class="col-md-9 text-left mt-sm-2">
-											<h4>Product Name</h4>
-											<p>York &amp; Smith</p>
-										</div>
-									</div>
-								</td>
-								<td data-th="Price">$49.00</td>
-								<td data-th="Quantity">
-									<input type="number" class="form-control text-center" value="1">
-								</td>
-								<td class="actions" data-th="">
-									<div class="text-right">
-										<button class="btn btn-white btn-md mb-2"><i class="fas fa-sync"></i></button>
-										<button class="btn btn-white btn-md mb-2"><i class="fas fa-trash"></i></button>
-									</div>
-								</td>
-							</tr>
+									</td>
+								</tr>
+							}
 						</tbody>
 					</table>
 					<div class="float-right text-right">

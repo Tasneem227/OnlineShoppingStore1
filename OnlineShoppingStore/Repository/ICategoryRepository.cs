@@ -2,4 +2,6 @@
 
 public interface ICategoryRepository
 {
+    public List<Category> GetAllCategories();
+
 }
