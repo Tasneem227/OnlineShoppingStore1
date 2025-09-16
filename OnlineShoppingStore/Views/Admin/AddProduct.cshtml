@@ -44,7 +44,7 @@
             <div class="col-md-6 mb-3">
                 <label asp-for="CategoryId" class="form-label">Category</label>
                 <select asp-for="CategoryId" asp-items="CategoryOptions" class="form-select">
-                    <option value="">-- Select Category --</option>
+                    <option >-- Select Category --</option>
                 </select>
                 <span asp-validation-for="CategoryId" class="text-danger"></span>
             </div>
@@ -57,7 +57,7 @@
         </div>
 
         <button type="submit" class="btn btn-primary">Save Product</button>
-        <a asp-action="AdminDashBoard" class="btn btn-secondary">Cancel</a>
+        <a asp-action="DashBoard" class="btn btn-secondary">Cancel</a>
     </form>
 </div>
 

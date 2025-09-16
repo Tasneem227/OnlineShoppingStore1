@@ -28,6 +28,7 @@ public class AdminController : Controller
         model.Categories = CategoryRepository.GetAllCategories();
         return View(model);
     }
+    [HttpPost]
     public IActionResult SaveNewProduct(AddProductViewModel viewModel)
     {
         if (ModelState.IsValid)
@@ -38,6 +39,11 @@ public class AdminController : Controller
             return RedirectToAction("DashBoard");
 
         }
+        else
+        {
+            ModelState.AddModelError("CategoryId", "Choose a Category ");
+        }
+        
             viewModel.Categories = CategoryRepository.GetAllCategories();
             return View("AddProduct", viewModel);
     }
@@ -68,6 +74,12 @@ public class AdminController : Controller
     public IActionResult ShowAllUsers()
     {
         return View();
+    }
+    public IActionResult ShowAllProducts()
+    {
+        var products = ProductRepository.GetAll();
+        products= ProductRepository.GetAll();
+        return View(products);
     }
 
     // Custom Validators for Admin 
