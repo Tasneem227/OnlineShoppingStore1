@@ -47,8 +47,8 @@
                             <img src="~/images/Products/@item.ImageUrl" alt="@item.Name" width="60" height="60" class="img-thumbnail" />
                         </td>
                         <td>
-                            <a asp-action="UpdateProduct" asp-controller="Admin" asp-route-productId="@item.CategoryId" class="btn btn-warning btn-sm">✏️ Edit</a>
-                            <a asp-action="DeleteProduct" asp-controller="Admin" asp-route-productId="@item.CategoryId" class="btn btn-danger btn-sm">🗑️ Delete</a>
+                            <a asp-action="EditProduct" asp-controller="Admin" asp-route-productId="@item.ProductId" class="btn btn-warning btn-sm">✏️ Edit</a>
+                            <a onclick="return confirm('Are you sure you want to delete this product?');" asp-action="DeleteProduct" asp-controller="Admin" asp-route-productId="@item.ProductId" class="btn btn-danger btn-sm">🗑️ Delete</a>
                         </td>
                     </tr>
                 }

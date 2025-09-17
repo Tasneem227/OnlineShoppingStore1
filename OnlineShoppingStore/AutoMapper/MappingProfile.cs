@@ -14,6 +14,10 @@ namespace OnlineShoppingStore.AutoMapper
                 .ForMember(dest => dest.Quantity, src => src.MapFrom(x => x.Quantity));
 
             CreateMap<AddProductViewModel, Product>();
+            CreateMap<Product, EditProductViewModel>()
+                .ForMember(dest => dest.CurrentImgUrl, src => src.MapFrom(x => x.ImageUrl));
+            CreateMap<EditProductViewModel, Product>()
+                .ForMember(dest => dest.ImageUrl, src => src.MapFrom(x => x.NewImageUrl ?? x.CurrentImgUrl));
 
         }
     }

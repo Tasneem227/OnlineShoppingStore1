@@ -2,6 +2,9 @@
 
 using OnlineShoppingStore.AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
+using OnlineShoppingStore.Data;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace OnlineShoppingStore
 {
@@ -17,10 +20,17 @@ namespace OnlineShoppingStore
             {
                options.UseSqlServer(builder.Configuration.GetConnectionString("cs"));
             });
+
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultUI()
+            .AddDefaultTokenProviders();
+
             builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped<ICartRepository, CartRepository>();
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+
 
 
             //Auto Mapper Configurations

@@ -1,0 +1,73 @@
+﻿@model List<Category>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Categories</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<link rel="shortcut icon" href="/images/favicon.ico">
+	<link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+	<link rel="stylesheet" href="/css/bootstrap-slider.min.css">
+
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+	<script src="js/bootstrap-slider.min.js"></script>
+	<link rel="stylesheet" href="css/style.css">
+
+	<style>
+		.category-item img {
+			width: 100%;
+			height: 250px;
+			object-fit: cover;
+			border-radius: 8px;
+		}
+
+		.view-btn {
+			width: 100%;
+			margin-top: 10px;
+			margin-bottom: 20px;
+		}
+	</style>
+</head>
+<body>
+	<></>
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<section class="categories">
+					<div class="container">
+
+						<div class="row" id="categoriesContainer">
+							@for (int i = 0; i < Model.Count; i++)
+							{
+								<div class="col-md-3 col-lg-3 col-sm-6 col-12 category-item">
+									<figure>
+										<img class="img-fluid" src="~/images/Categories/@Model[i].Description">
+									</figure>
+
+									<h4 class="mb-2 text-center">
+										@Model[i].Name
+									</h4>
+
+									<a asp-action="ProductsByCategory"
+									   asp-controller="Product"
+									   asp-route-CategoryId="@Model[i].CategoryId"
+									   class="btn btn-lg btn-primary view-btn">
+										View Products
+									</a>
+								</div>
+							}
+						</div>
+
+					</div>
+				</section>
+			</div>
+		</div>
+	</div>
+
+	<!-- Scripts -->
+	<script src="/js/jquery-3.1.1.min.js"></script>
+	<script src="/bootstrap/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+</body>
+</html>

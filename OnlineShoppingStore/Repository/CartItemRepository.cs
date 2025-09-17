@@ -1,4 +1,6 @@
-﻿namespace OnlineShoppingStore.Repository;
+﻿using OnlineShoppingStore.Data;
+
+namespace OnlineShoppingStore.Repository;
 
 public class CartItemRepository: ICartItemRepository
 {

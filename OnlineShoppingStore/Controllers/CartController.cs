@@ -31,9 +31,11 @@ public class CartController(ICartItemRepository _CartItemRepository,
         ViewBag.totalPrice = CartItemList.Sum(x => x.Product.Price * x.Quantity);   
         return Json(layoutViewModels);
     }
-    public IActionResult AddToCart(int productId, int CartId)
+    public IActionResult AddToCart(int productId,[FromQuery] int CartId, int Quantity)
     {
-        _CartRepository.AddToCart(productId, CartId);
+        CartId = 1;
+
+        _CartRepository.AddToCart(productId, CartId, Quantity);
         _CartRepository.SaveChanges();
         return NoContent();
     }

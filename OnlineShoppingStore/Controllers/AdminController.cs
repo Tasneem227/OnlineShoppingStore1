@@ -47,18 +47,80 @@ public class AdminController : Controller
             viewModel.Categories = CategoryRepository.GetAllCategories();
             return View("AddProduct", viewModel);
     }
-    public IActionResult UpdateProduct(int productId)
+   
+    /// //////////// Edit Product ///////////// ///////////////////////////////////////////
+    public IActionResult EditProduct(int productId, bool temp)
     {
-        return View();
+        var Product = ProductRepository.GetById(productId);
+        var model = Mapper.Map<EditProductViewModel>(Product);
+        model.Categories = CategoryRepository.GetAllCategories();
+        model.temp = temp;
+        return View(model);
+
     }
-    public IActionResult SaveUpdatedProduct()
+    [HttpPost]
+    public IActionResult SaveUpdatedProduct(EditProductViewModel viewModel)
     {
-        return View();
+        if (ModelState.IsValid)
+        {
+            var product = Mapper.Map<Product>(viewModel);
+            ProductRepository.Update(product);
+            ProductRepository.SaveChanges();
+            if ((bool)viewModel.temp)
+            {
+                return RedirectToAction("SearchForProduct");
+            }
+            else
+            {
+                return RedirectToAction("ShowAllProducts");
+            }
+        }
+        else
+        {
+            ModelState.AddModelError("CategoryId", "Choose a Category ");
+        }
+        return View("EditProduct",viewModel);
     }
-    public IActionResult DeleteProduct(int productId)
+
+    public IActionResult DeleteProduct(int productId,bool? temp=false)
     {
-        return View();
+        var product = ProductRepository.GetById(productId);
+        if (product != null)
+        {
+            ProductRepository.Delete(product);
+            ProductRepository.SaveChanges();
+            if (!(bool)temp)
+            {
+                return RedirectToAction("ShowAllProducts");
+            }
+            else
+            {
+                return RedirectToAction("SearchForProduct");
+            }
+        }
+        return View("ShowAllProducts");
     }
+    public IActionResult SearchForProduct(string? productId, string? name)
+    {
+        List<Product> products = new List<Product>();
+
+        if (!string.IsNullOrEmpty(productId))
+        {
+            if (int.TryParse(productId, out int id))
+            {
+                var product = ProductRepository.GetById(id);
+                if (product != null) products.Add(product);
+            }
+        }
+        else if (!string.IsNullOrEmpty(name))
+        {
+            products = ProductRepository.GetByName(name);
+            
+        }
+
+        return View(products);
+    }
+
     public IActionResult ShowAllOrders()
     {
         return View();

@@ -1,8 +1,12 @@
 ﻿<!DOCTYPE html>
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+}
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Aurum - Bootstrap 4 Ecommerce Template</title>
+	<title>Online Shopping Store</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 	<link rel="shortcut icon" href="/images/favicon.ico">
 	<link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
@@ -22,7 +26,7 @@
 					<ul class="navbar-nav mt-2 mt-md-0">
 						<li class="nav-item active"><a class="nav-link" asp-action="Index" asp-controller="Home">Home <span class="sr-only">(current)</span></a></li>
 						<li class="nav-item"> <a class="nav-link" <a asp-action="DashBoard" asp-controller="Admin" >DashBoard</a></li>
-						<li class="nav-item dropdown mega-menu">
+						@* <li class="nav-item dropdown mega-menu">
 							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Shop </a>
 							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 								<div class="container">
@@ -94,14 +98,16 @@
 									</div>
 								</div>
 							</div>
-						</li>
+						</li> *@
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Pages </a>
 							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 								<a class="dropdown-item" href="index.html">Homepage</a>
 								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" asp-action="AllCategories" asp-controller="Category">Category</a>
+
 								<a class="dropdown-item" asp-action="ShowAll" asp-controller="Product">Catalog</a>
-								<a class="dropdown-item" href="item.html">Item Detail</a>
+
 								<a class="dropdown-item" asp-action="ShowCartItems" asp-controller="Cart">Cart</a>
 								<div class="dropdown-divider"></div>
 								<a class="dropdown-item" href="contact.html">Contact</a>
@@ -114,7 +120,7 @@
 								<h6>3 Items <span class="emphasis">$147.00</span></h6>
 								<div class="dropdown-divider"></div>
 								<ul class="shopping-cart-items">
-									
+
 									<li class="row">
 										<div class="col-3">
 											<img src="images/placeholder-product.jpg" width="60">
@@ -145,7 +151,7 @@
 											<span class="emphasis">$49.00</span>
 										</div>
 									</li>
-									
+
 								</ul>
 
 								<a asp-action="ShowCartItems" asp-controller="Cart" class="btn btn-lg btn-full-width btn-primary" style="margin: 0;">View Cart</a>
@@ -158,50 +164,52 @@
 	</section>
 
 	<div>
-        @RenderBody()
+		@RenderBody()
 	</div>
 
 	<footer class="footer">
+
 		<div class="container">
 			<div class="row mb-5 text-center">
 				<div class="col-sm-6 col-md-3 pt-2">
-					<h5>Women's</h5>
+					<a href="https://localhost:7289/Product/ProductsByCategory?CategoryId=1" style="color:black"><h5>T-Shirts</h5></a>
+
 					<ul class="nav-footer">
-						<li class="nav-item"><a class="nav-link" href="#">Link Item</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">Link Item</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">Link Item</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">Link Item</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">Link Item</a></li>
+						<li class="nav-item"><a class="nav-link" href="https://localhost:7289/Product/Details?ProductId=112">Link Item</a></li>
+						<li class="nav-item"><a class="nav-link" href="https://localhost:7289/Product/Details?ProductId=113">Link Item</a></li>
+						<li class="nav-item"><a class="nav-link" href="https://localhost:7289/Product/Details?ProductId=114">Link Item</a></li>
+						<li class="nav-item"><a class="nav-link" href="https://localhost:7289/Product/Details?ProductId=115">Link Item</a></li>
+
 					</ul>
 				</div>
 				<div class="col-sm-6 col-md-3 pt-2">
-					<h5>Men's</h5>
+					<a href="https://localhost:7289/Product/ProductsByCategory?CategoryId=2" style="color:black"><h5>Dresses</h5></a>
 					<ul class="nav-footer">
-						<li class="nav-item"><a class="nav-link" href="#">Link Item</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">Link Item</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">Link Item</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">Link Item</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">Link Item</a></li>
+						<li class="nav-item"><a class="nav-link" href="https://localhost:7289/Product/Details?ProductId=122">Link Item</a></li>
+						<li class="nav-item"><a class="nav-link" href="https://localhost:7289/Product/Details?ProductId=123">Link Item</a></li>
+						<li class="nav-item"><a class="nav-link" href="https://localhost:7289/Product/Details?ProductId=124">Link Item</a></li>
+						<li class="nav-item"><a class="nav-link" href="https://localhost:7289/Product/Details?ProductId=126">Link Item</a></li>
+
 					</ul>
 				</div>
 				<div class="col-sm-6 col-md-3 pt-2">
-					<h5>Girl's</h5>
+					<a href="https://localhost:7289/Product/ProductsByCategory?CategoryId=3" style="color:black"><h5>Skirts</h5></a>
 					<ul class="nav-footer">
-						<li class="nav-item"><a class="nav-link" href="#">Link Item</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">Link Item</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">Link Item</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">Link Item</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">Link Item</a></li>
+						<li class="nav-item"><a class="nav-link" href="https://localhost:7289/Product/Details?ProductId=132">Link Item</a></li>
+						<li class="nav-item"><a class="nav-link" href="https://localhost:7289/Product/Details?ProductId=133">Link Item</a></li>
+						<li class="nav-item"><a class="nav-link" href="https://localhost:7289/Product/Details?ProductId=134">Link Item</a></li>
+						<li class="nav-item"><a class="nav-link" href="https://localhost:7289/Product/Details?ProductId=135">Link Item</a></li>
+
 					</ul>
 				</div>
 				<div class="col-sm-6 col-md-3 pt-2">
-					<h5>Boy's</h5>
+					<a href="https://localhost:7289/Product/ProductsByCategory?CategoryId=4" style="color:black"><h5>Shoeses</h5></a>
 					<ul class="nav-footer">
-						<li class="nav-item"><a class="nav-link" href="#">Link Item</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">Link Item</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">Link Item</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">Link Item</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">Link Item</a></li>
+						<li class="nav-item"><a class="nav-link" href="https://localhost:7289/Product/Details?ProductId=142">Link Item</a></li>
+						<li class="nav-item"><a class="nav-link" href="https://localhost:7289/Product/Details?ProductId=143">Link Item</a></li>
+						<li class="nav-item"><a class="nav-link" href="https://localhost:7289/Product/Details?ProductId=144">Link Item</a></li>
+						<li class="nav-item"><a class="nav-link" href="https://localhost:7289/Product/Details?ProductId=145">Link Item</a></li>
+
 					</ul>
 				</div>
 			</div>
