@@ -1,0 +1,85 @@
+﻿@using OnlineShoppingStore.ViewModel.ProductViewModel;
+@model ProductCartCartItemViewModelDiscount
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Aurum - Bootstrap 4 Ecommerce Template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <section class="featured-block text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-center">
+                    <div class="product-image mt-3">
+                        <img class="img-fluid" src="~/images/Products/@Model.ImageUrl">
+                    </div>
+                    <div class="product-thumbnails">
+                    </div>
+                </div>
+                <div class="col-md-6 mt-5 mt-md-2 text-center text-md-left">
+
+                    <h2 class="mb-3 mt-0">@Model.Name</h2>
+
+                    <p class="lead mt-2 mb-3 primary-color">@Model.Price</p>
+
+                    <h5 class="mt-4">Description</h5>
+                    <p>@Model.Description</p>
+
+                    <h5 class="mt-5">Brand </h5>
+                    <p>@Model.Brand</p>
+
+                    <form asp-action="AddToCart"
+                          asp-controller="Cart"
+                          asp-route-productId="@Model.ProductId"
+                          asp-route-CartId="@Model.CartId"
+                          asp-route-Quantity="@Model.Quantity">
+                        <div>
+                            <label class="form form-control">
+                                Quantity
+                            </label>
+                            <input asp-for="Quantity" class="form form-control" />
+                        </div>
+
+                        <!-- زرار Add To Cart مع مسافة فوقه -->
+                        <button type="submit" class="btn btn-lg btn-primary view-btn mt-3">
+                            Add To Cart
+                        </button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section class="cta text-center">
+        <div class="container">
+            <h3 class="mt-0 mb-4">Sign up now to save 10% on your first order</h3>
+            <form class="subscribe">
+                <div class="form-group row pt-3">
+                    <div class="col-sm-8 mb-3">
+                        <input type="text" class="form-control" id="inputName" placeholder="Your Name">
+                    </div>
+                    <div class="col-sm-4">
+                        <button type="submit" class="btn btn-lg btn-outline-primary">Sign me up</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+
+</body>
+</html>

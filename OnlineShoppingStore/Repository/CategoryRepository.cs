@@ -1,6 +1,8 @@
-﻿namespace OnlineShoppingStore.Repository;
+﻿using OnlineShoppingStore.Data;
 
-public class CategoryRepository: ICategoryRepository
+namespace OnlineShoppingStore.Repository;
+
+public class CategoryRepository : ICategoryRepository
 {
     private readonly ApplicationDbContext Context;
     public CategoryRepository(ApplicationDbContext context)
@@ -10,6 +12,7 @@ public class CategoryRepository: ICategoryRepository
 
     public List<Category> GetAllCategories()
     {
-        return Context.Categories.ToList();
+        List<Category> list = Context.Categories.ToList();
+        return list;
     }
 }

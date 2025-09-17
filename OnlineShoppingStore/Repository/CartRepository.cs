@@ -1,4 +1,4 @@
-﻿using OnlineShoppingStore.Models;
+﻿using OnlineShoppingStore.Data;
 
 namespace OnlineShoppingStore.Repository;
 
@@ -11,14 +11,15 @@ public class CartRepository:ICartRepository
         _Context = context;
     }
 
-    public void AddToCart(int productId,int CartId)
-    { 
+    public void AddToCart(int ProductId, int CartId, int Quantity)
+    {
         CartItem cartItem = new CartItem
         {
-            Quantity = 1,
-            
-            ProductId = productId
-            
+            ProductId = ProductId,
+            CartId = 1,
+            Quantity = Quantity
+
+
         };
         _Context.CartsItems.Add(cartItem);
     }
