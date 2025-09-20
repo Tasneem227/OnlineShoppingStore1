@@ -14,21 +14,21 @@
                 <a asp-action="SearchForProduct" asp-controller="Admin"  class="nav-link text-white">✏️ Update Product</a>
             </li>
             <li class="nav-item mb-2">
-                <a asp-action="SearchForProduct" asp-controller="Admin"  class="nav-link text-white">🗑️ Delete Product</a>
+                <a asp-action="SearchForProduct" asp-controller="Admin"  class="nav-link text-white">🗑️ Search For Product</a>
             </li>
             <hr class="bg-light" />
             <li class="nav-item mb-2">
-                <a asp-action="ShowAllOrders" asp-controller="Admin" class="nav-link text-white">📋 Show All Orders</a>
+                <a asp-action="ShowAllOrders" asp-controller="Order" class="nav-link text-white">📋 Show All Orders</a>
             </li>
-            <li class="nav-item mb-2">
+         @*    <li class="nav-item mb-2">
                 <a asp-action="ShowOrderDetails" asp-controller="Admin" asp-route-orderId="1" class="nav-link text-white">🔍 Order Details</a>
-            </li>
-            <li class="nav-item mb-2">
+            </li> *@
+          @*   <li class="nav-item mb-2">
                 <a asp-action="UpdateOrderStatus" asp-controller="Admin" asp-route-orderId="1" class="nav-link text-white">🔄 Update Order</a>
-            </li>
+            </li> *@
             <hr class="bg-light" />
             <li class="nav-item mb-2">
-                <a asp-action="ShowAllUsers" asp-controller="Admin" class="nav-link text-white">👤 Show All Users</a>
+                <a asp-action="GetAllCustomers" asp-controller="Customer" class="nav-link text-white">👤 Show All Customers</a>
             </li>
         </ul>
     </div>
@@ -50,8 +50,8 @@
             <div class="col-md-4">
                 <div class="card shadow-sm text-center">
                     <div class="card-body">
-                        <h5 class="card-title">Orders</h5>
-                        <p class="text-muted">Track and update customer orders.</p>
+                        <a asp-action="ShowAllOrders" asp-controller="Order" class="card-title">Orders</a>
+                        <p class="text-muted">All Orders In Our Store.</p>
                     </div>
                 </div>
             </div>
@@ -59,8 +59,8 @@
             <div class="col-md-4">
                 <div class="card shadow-sm text-center">
                     <div class="card-body">
-                        <h5 class="card-title">Users</h5>
-                        <p class="text-muted">View and manage registered users.</p>
+                       <a asp-action="GetAllCustomers" asp-controller="Customer">Customers</a>
+                        <p class="text-muted">View All Customers.</p>
                     </div>
                 </div>
             </div>

@@ -1,0 +1,40 @@
+﻿@model OrderCustomerViewModel
+
+@{
+    ViewData["Title"] = "All Orders";
+}
+
+<div class="container mt-5">
+    <h2 class="mb-4">All Orders for @Model.FirstName @Model.LastName</h2>
+
+    <table class="table table-bordered table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Full Name</th>
+                <th>Customer Id</th>
+                <th>Order Date</th>
+                <th>Total Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.orderlist != null && Model.orderlist.Any())
+            {
+                foreach (var order in Model.orderlist)
+                {
+                    <tr>
+                        <td>@Model.FirstName @Model.LastName</td>
+                        <td>@order.CustomerId</td>
+                        <td>@order.OrderDate.ToString("yyyy-MM-dd")</td>
+                        <td>@order.TotalAmount.ToString("C")</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="4" class="text-center text-muted">No orders found.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

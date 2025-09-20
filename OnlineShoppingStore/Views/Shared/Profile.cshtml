@@ -1,0 +1,38 @@
+﻿@using OnlineShoppingStore.ViewModel.AccountViewModel
+@model ProfileViewModel
+
+@{
+    ViewData["Title"] = "My Profile";
+}
+
+<div class="container mt-4 d-flex justify-content-center">
+    <div class="card shadow-lg p-4" style="max-width: 700px; width: 100%; border-radius: 15px;">
+        <div class="text-center mb-3">
+            <img src="~/images/ProfilePicture/@Model.Image" alt="Profile Picture" class="rounded-circle border"
+                 style="width: 150px; height: 150px; object-fit: cover;" />
+        </div>
+
+        <h3 class="text-center mb-4">@Model.FirstName @Model.LastName</h3>
+
+        <dl class="row">
+            <dt class="col-sm-4">Username:</dt>
+            <dd class="col-sm-8">@Model.UserName</dd>
+
+            <dt class="col-sm-4">Date of Birth:</dt>
+            <dd class="col-sm-8">@Model.DateOfBirth.ToString("yyyy-MM-dd")</dd>
+
+            <dt class="col-sm-4">Gender:</dt>
+            <dd class="col-sm-8">@Model.Gender</dd>
+
+            @* <dt class="col-sm-4">Address:</dt>
+            <dd class="col-sm-8">@Model.Address</dd> *@
+
+            <dt class="col-sm-4">Phone Number:</dt>
+            <dd class="col-sm-8">@Model.PhoneNumber</dd>
+        </dl>
+
+        @* <div class="text-center mt-3">
+            <a asp-action="EditProfile" asp-controller="Customer" class="btn btn-primary">Edit Profile</a>
+        </div> *@
+    </div>
+</div>
