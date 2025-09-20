@@ -13,7 +13,7 @@ public class ProductRepository : IProductRepository
 
     public List<Product> GetAll()
     {
-        return _Context.Products.Include(c=>c.Category).ToList();
+        return _Context.Products.Include(c => c.Category).ToList();
     }
 
     public Product GetById(int id)
@@ -52,7 +52,7 @@ public class ProductRepository : IProductRepository
     public bool ProductExists(string name) => _Context.Products.Any(e => e.Name.Equals(name));
     public List<Product> GetByName(string name)
     {
-        return _Context.Products.Include(c=>c.Category)
+        return _Context.Products.Include(c => c.Category)
                        .Where(p => p.Name.Contains(name))
                        .ToList();
     }

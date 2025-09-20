@@ -7,11 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\**" />
+    <Content Remove="Areas\**" />
+    <EmbeddedResource Remove="Areas\**" />
+    <None Remove="Areas\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="Views\Home\contact.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Views\Home\contact.cshtml" />
+    <None Include="Views\Shared\contact.cshtml" />
     <None Include="wwwroot\sass\.sass-cache\8ddff9647055b2688d471a255a1e7b9db802056e\style.scssc" />
     <None Include="wwwroot\sass\.sass-cache\d2855ace4cdb3f7a09da77aab28d78ef37c08e58\style.scssc" />
     <None Include="wwwroot\sass\.sass-cache\dadf69ff326364f561267fa0addac85c45b7e20b\style.scssc" />
@@ -35,10 +42,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="9.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Areas\Identity\Data\" />
   </ItemGroup>
 
 </Project>

@@ -24,7 +24,7 @@ public class AdminController : Controller
     }
     public IActionResult AddProduct()
     {
-        AddProductViewModel model = new AddProductViewModel();  
+        AddProductViewModel model = new AddProductViewModel();
         model.Categories = CategoryRepository.GetAllCategories();
         return View(model);
     }
@@ -33,7 +33,7 @@ public class AdminController : Controller
     {
         if (ModelState.IsValid)
         {
-            Product product=Mapper.Map<Product>(viewModel);
+            Product product = Mapper.Map<Product>(viewModel);
             ProductRepository.Add(product);
             ProductRepository.SaveChanges();
             return RedirectToAction("DashBoard");
@@ -43,11 +43,11 @@ public class AdminController : Controller
         {
             ModelState.AddModelError("CategoryId", "Choose a Category ");
         }
-        
-            viewModel.Categories = CategoryRepository.GetAllCategories();
-            return View("AddProduct", viewModel);
+
+        viewModel.Categories = CategoryRepository.GetAllCategories();
+        return View("AddProduct", viewModel);
     }
-   
+
     /// //////////// Edit Product ///////////// ///////////////////////////////////////////
     public IActionResult EditProduct(int productId, bool temp)
     {
@@ -79,10 +79,10 @@ public class AdminController : Controller
         {
             ModelState.AddModelError("CategoryId", "Choose a Category ");
         }
-        return View("EditProduct",viewModel);
+        return View("EditProduct", viewModel);
     }
 
-    public IActionResult DeleteProduct(int productId,bool? temp=false)
+    public IActionResult DeleteProduct(int productId, bool? temp = false)
     {
         var product = ProductRepository.GetById(productId);
         if (product != null)
@@ -115,7 +115,7 @@ public class AdminController : Controller
         else if (!string.IsNullOrEmpty(name))
         {
             products = ProductRepository.GetByName(name);
-            
+
         }
 
         return View(products);
@@ -140,12 +140,12 @@ public class AdminController : Controller
     public IActionResult ShowAllProducts()
     {
         var products = ProductRepository.GetAll();
-        products= ProductRepository.GetAll();
+        products = ProductRepository.GetAll();
         return View(products);
     }
 
     // Custom Validators for Admin 
-    public IActionResult RepeatedProductName(string Name) =>Json( !ProductRepository.ProductExists(Name));
-        
-    
+    public IActionResult RepeatedProductName(string Name) => Json(!ProductRepository.ProductExists(Name));
+
+
 }

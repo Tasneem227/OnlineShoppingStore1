@@ -2,7 +2,7 @@
 
 namespace OnlineShoppingStore.Repository;
 
-public class CartRepository:ICartRepository
+public class CartRepository : ICartRepository
 {
     private readonly ApplicationDbContext _Context;
 
@@ -16,9 +16,8 @@ public class CartRepository:ICartRepository
         CartItem cartItem = new CartItem
         {
             ProductId = ProductId,
-            CartId = 1,
+            CartId = CartId,
             Quantity = Quantity
-
 
         };
         _Context.CartsItems.Add(cartItem);
@@ -32,5 +31,40 @@ public class CartRepository:ICartRepository
             _Context.SaveChanges();
         }
     }
-    public void SaveChanges() =>  _Context.SaveChanges();
+
+    public void UpdateCartItem(CartItem[] itemsList)
+    {
+        foreach (var item in itemsList)
+        {
+            var existingItem = _Context.CartsItems.FirstOrDefault(c => c.Id == item.Id);
+            if (existingItem != null)
+            {
+                existingItem.Quantity = item.Quantity;
+                existingItem.ProductId = item.ProductId;
+                existingItem.CartId = item.CartId;
+            }
+        }
+
+        _Context.SaveChanges();
+    }
+
+    public void EditQuantity(int Quantity, int ProductId)
+    {
+        var result = _Context.CartsItems.FirstOrDefault(e => e.ProductId == ProductId);
+        result.Quantity = Quantity;
+    }
+
+    public void AddCart(int customerid)
+    {
+        Cart cart = new Cart
+        {
+            CustomerId = customerid
+        };
+        _Context.Carts.Add(cart);
+    }
+    public int GetLastCartId()
+    {
+        return _Context.Carts.Max(c => c.CartId);
+    }   
+    public void SaveChanges() => _Context.SaveChanges();
 }

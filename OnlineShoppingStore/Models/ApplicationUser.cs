@@ -11,7 +11,8 @@ public class ApplicationUser:IdentityUser
 
     [Required]
     public string Gender { get; set; }
-    public DateOnly BirthDate { get; set; }
 
-    public byte[] ProfilePicture { get; set; }
+    public int cartid { get; set; }
+    public DateOnly BirthDate { get; set; }
+    public string ProfilePicture { get; set; }
 }

@@ -38,15 +38,16 @@
                     <form asp-action="AddToCart"
                           asp-controller="Cart"
                           asp-route-productId="@Model.ProductId"
-                          asp-route-CartId="@Model.CartId"
-                          asp-route-Quantity="@Model.Quantity">
+                          asp-route-Quantity="@Model.Quantity"
+                            asp-route-temp="true">
+                        <input type="hidden" asp-route-temp="true" />
                         <div>
                             <label class="form form-control">
                                 Quantity
                             </label>
-                            <input asp-for="Quantity" class="form form-control" />
-                        </div>
+                            <input asp-for="Quantity" class="form form-control" type="number" min="1" value="1" />
 
+                        </div>
                         <!-- زرار Add To Cart مع مسافة فوقه -->
                         <button type="submit" class="btn btn-lg btn-primary view-btn mt-3">
                             Add To Cart
@@ -59,23 +60,23 @@
     </section>
 
     <div class="divider"></div>
-
+    @* 
     <section class="cta text-center">
         <div class="container">
-            <h3 class="mt-0 mb-4">Sign up now to save 10% on your first order</h3>
-            <form class="subscribe">
+            <h3 class="mt-0 mb-4">Enter Your Discount Code Now !</h3>
+            <form class="subscribe" asp-action="ApplyDiscount" asp-controller="Discount" asp-route-Code="@Model.Code" asp-route-Amount="@Model.Quantity" asp-route-productId="@Model.ProductId">
                 <div class="form-group row pt-3">
                     <div class="col-sm-8 mb-3">
-                        <input type="text" class="form-control" id="inputName" placeholder="Your Name">
+                        <input type="text" class="form-control" id="inputName" placeholder="Your Code">
                     </div>
                     <div class="col-sm-4">
-                        <button type="submit" class="btn btn-lg btn-outline-primary">Sign me up</button>
+                        <button type="submit" class="btn btn-lg btn-outline-primary">Apply Discount</button>
                     </div>
                 </div>
             </form>
         </div>
     </section>
-
+ *@
 
     <script src="js/jquery-3.1.1.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>

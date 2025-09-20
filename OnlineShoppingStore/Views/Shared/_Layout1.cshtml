@@ -24,8 +24,22 @@
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-1" aria-controls="navbar-1" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
 				<div class="collapse navbar-collapse pull-xs-right justify-content-end" id="navbar-1">
 					<ul class="navbar-nav mt-2 mt-md-0">
-						<li class="nav-item active"><a class="nav-link" asp-action="Index" asp-controller="Home">Home <span class="sr-only">(current)</span></a></li>
-						<li class="nav-item"> <a class="nav-link" <a asp-action="DashBoard" asp-controller="Admin" >DashBoard</a></li>
+						
+							@if (!User.IsInRole("Admin"))
+							{
+								<li class="nav-item active"><a class="nav-link" asp-action="Index" asp-controller="Home">Home <span class="sr-only">(current)</span></a></li>
+							}
+						
+						@if (User.Identity.IsAuthenticated)
+						{
+							@if (User.IsInRole("Admin"))
+							{
+								<li class="nav-item"> 
+									<a class="nav-link"  asp-action="DashBoard" asp-controller="Admin" > DashBoard</a>
+									</li>
+							}
+
+						}
 						@* <li class="nav-item dropdown mega-menu">
 							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Shop </a>
 							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -99,29 +113,48 @@
 								</div>
 							</div>
 						</li> *@
+
+						@if (!User.IsInRole("Admin"))
+						{
+							<li class="nav-item dropdown">
+								<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Pages </a>
+								<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+									<a class="dropdown-item" asp-action="Index" asp-controller="Home" >Homepage</a>
+									<div class="dropdown-divider"></div>
+									<a class="dropdown-item" asp-action="AllCategories" asp-controller="Category">Category</a>
+
+									<a class="dropdown-item" asp-action="ShowAll" asp-controller="Product">Catalog</a>
+
+									<a class="dropdown-item" asp-action="ShowCartItems" asp-controller="Cart">Cart</a>
+									<div class="dropdown-divider"></div>
+									<a class="dropdown-item" href="contact.html">Contact</a>
+								</div>
+							</li>
+
+							<li class="nav-item"><a class="nav-link" asp-action="Contact" asp-controller="Home" ">Contact</a></li>
+						}
+						@if (User.Identity.IsAuthenticated)
+						{
+							<li class="nav-item"><a class="nav-link" asp-action="SignOut" asp-controller="Account" >Log Out</a></li>
+							<li class="nav-item"><a class="nav-link" asp-action="Profile" asp-controller="Account">Profile</a></li>
+						}
+						else
+						{
+							<li class="nav-item"><a class="nav-link" asp-action="Register" asp-controller="Account">Register</a></li>
+							<li class="nav-item"><a class="nav-link" asp-action="Login" asp-controller="Account" >Log In</a></li>
+                        }
+						@if (User.Identity.IsAuthenticated)
+						{
+							@if (User.IsInRole("Customer"))
+							{
 						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Pages </a>
-							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-								<a class="dropdown-item" href="index.html">Homepage</a>
-								<div class="dropdown-divider"></div>
-								<a class="dropdown-item" asp-action="AllCategories" asp-controller="Category">Category</a>
+									<a class="nav-link " asp-action="ShowCartItems" asp-controller="Cart"  role="button" ><i class="fas fa-shopping-cart"></i> </a>
+							@* <div class="dropdown-menu dropdown-menu-right dropdown-cart" aria-labelledby="navbarDropdown">
+								<h6>3 Items <span class="emphasis">$147.00</span></h6> *@
+								@* <div class="dropdown-divider"></div>
+								<ul class="shopping-cart-items"> *@
 
-								<a class="dropdown-item" asp-action="ShowAll" asp-controller="Product">Catalog</a>
-
-								<a class="dropdown-item" asp-action="ShowCartItems" asp-controller="Cart">Cart</a>
-								<div class="dropdown-divider"></div>
-								<a class="dropdown-item" href="contact.html">Contact</a>
-							</div>
-						</li>
-						<li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-shopping-cart"></i> <span class="badge badge-pill badge-primary">3</span></a>
-							<div class="dropdown-menu dropdown-menu-right dropdown-cart" aria-labelledby="navbarDropdown">
-								<h6>3 Items <span class="emphasis">$147.00</span></h6>
-								<div class="dropdown-divider"></div>
-								<ul class="shopping-cart-items">
-
-									<li class="row">
+							@* 		<li class="row">
 										<div class="col-3">
 											<img src="images/placeholder-product.jpg" width="60">
 										</div>
@@ -149,12 +182,12 @@
 											<h6><a href="item.html">Product Name</a></h6>
 											<span class="text-muted">1x</span>
 											<span class="emphasis">$49.00</span>
-										</div>
+										</div> *@
 									</li>
-
+									}
+									}
 								</ul>
 
-								<a asp-action="ShowCartItems" asp-controller="Cart" class="btn btn-lg btn-full-width btn-primary" style="margin: 0;">View Cart</a>
 							</div>
 						</li>
 					</ul>
@@ -168,57 +201,68 @@
 	</div>
 
 	<footer class="footer">
+		@if (!User.IsInRole("Admin"))
+		{
+			<div class="container">
+				<div class="row mb-5 text-center">
+					<div class="col-sm-6 col-md-3 pt-2">
+						<a asp-action="ProductsByCategory" asp-route-CategoryId="1" asp-controller="Product" style="color:black"><h5>T-Shirts</h5></a>
+						<ul class="nav-footer">
+						</ul>
+					</div>
 
-		<div class="container">
-			<div class="row mb-5 text-center">
-				<div class="col-sm-6 col-md-3 pt-2">
-					<a href="https://localhost:7289/Product/ProductsByCategory?CategoryId=1" style="color:black"><h5>T-Shirts</h5></a>
-
-					<ul class="nav-footer">
-						<li class="nav-item"><a class="nav-link" href="https://localhost:7289/Product/Details?ProductId=112">Link Item</a></li>
-						<li class="nav-item"><a class="nav-link" href="https://localhost:7289/Product/Details?ProductId=113">Link Item</a></li>
-						<li class="nav-item"><a class="nav-link" href="https://localhost:7289/Product/Details?ProductId=114">Link Item</a></li>
-						<li class="nav-item"><a class="nav-link" href="https://localhost:7289/Product/Details?ProductId=115">Link Item</a></li>
-
-					</ul>
-				</div>
-				<div class="col-sm-6 col-md-3 pt-2">
-					<a href="https://localhost:7289/Product/ProductsByCategory?CategoryId=2" style="color:black"><h5>Dresses</h5></a>
-					<ul class="nav-footer">
-						<li class="nav-item"><a class="nav-link" href="https://localhost:7289/Product/Details?ProductId=122">Link Item</a></li>
-						<li class="nav-item"><a class="nav-link" href="https://localhost:7289/Product/Details?ProductId=123">Link Item</a></li>
-						<li class="nav-item"><a class="nav-link" href="https://localhost:7289/Product/Details?ProductId=124">Link Item</a></li>
-						<li class="nav-item"><a class="nav-link" href="https://localhost:7289/Product/Details?ProductId=126">Link Item</a></li>
-
-					</ul>
-				</div>
-				<div class="col-sm-6 col-md-3 pt-2">
-					<a href="https://localhost:7289/Product/ProductsByCategory?CategoryId=3" style="color:black"><h5>Skirts</h5></a>
-					<ul class="nav-footer">
-						<li class="nav-item"><a class="nav-link" href="https://localhost:7289/Product/Details?ProductId=132">Link Item</a></li>
-						<li class="nav-item"><a class="nav-link" href="https://localhost:7289/Product/Details?ProductId=133">Link Item</a></li>
-						<li class="nav-item"><a class="nav-link" href="https://localhost:7289/Product/Details?ProductId=134">Link Item</a></li>
-						<li class="nav-item"><a class="nav-link" href="https://localhost:7289/Product/Details?ProductId=135">Link Item</a></li>
-
-					</ul>
-				</div>
-				<div class="col-sm-6 col-md-3 pt-2">
-					<a href="https://localhost:7289/Product/ProductsByCategory?CategoryId=4" style="color:black"><h5>Shoeses</h5></a>
-					<ul class="nav-footer">
-						<li class="nav-item"><a class="nav-link" href="https://localhost:7289/Product/Details?ProductId=142">Link Item</a></li>
-						<li class="nav-item"><a class="nav-link" href="https://localhost:7289/Product/Details?ProductId=143">Link Item</a></li>
-						<li class="nav-item"><a class="nav-link" href="https://localhost:7289/Product/Details?ProductId=144">Link Item</a></li>
-						<li class="nav-item"><a class="nav-link" href="https://localhost:7289/Product/Details?ProductId=145">Link Item</a></li>
-
-					</ul>
+					<div class="col-sm-6 col-md-3 pt-2">
+						<a asp-action="ProductsByCategory" asp-route-CategoryId="2" asp-controller="Product" style="color:black"><h5>Dress</h5></a>
+						<ul class="nav-footer">
+						</ul>
+					</div>
+					<div class="col-sm-6 col-md-3 pt-2">
+						<a asp-action="ProductsByCategory" asp-route-CategoryId="3" asp-controller="Product" style="color:black"><h5>Skirt</h5></a>
+						<ul class="nav-footer">
+						</ul>
+					</div>
+					<div class="col-sm-6 col-md-3 pt-2">
+						<a asp-action="ProductsByCategory" asp-route-CategoryId="4" asp-controller="Product" style="color:black"><h5>Shoes</h5></a>
+						<ul class="nav-footer">
+						</ul>
+					</div>
+					<div class="col-sm-6 col-md-3 pt-2">
+						<a asp-action="ProductsByCategory" asp-route-CategoryId="5" asp-controller="Product" style="color:black"><h5>Bag</h5></a>
+						<ul class="nav-footer">
+						</ul>
+					</div>
+					<div class="col-sm-6 col-md-3 pt-2">
+						<a asp-action="ProductsByCategory" asp-route-CategoryId="6" asp-controller="Product" style="color:black"><h5>Pants</h5></a>
+						<ul class="nav-footer">
+						</ul>
+					</div>
+					<div class="col-sm-6 col-md-3 pt-2">
+						<a asp-action="ProductsByCategory" asp-route-CategoryId="7" asp-controller="Product" style="color:black"><h5>Jackets</h5></a>
+						<ul class="nav-footer">
+						</ul>
+					</div>
+					<div class="col-sm-6 col-md-3 pt-2">
+						<a asp-action="ProductsByCategory" asp-route-CategoryId="8" asp-controller="Product" style="color:black"><h5>Accessories</h5></a>
+						<ul class="nav-footer">
+						</ul>
+					</div>
+					<div class="col-sm-6 col-md-3 pt-2">
+						<a asp-action="ProductsByCategory" asp-route-CategoryId="9" asp-controller="Product" style="color:black"><h5>Suit</h5></a>
+						<ul class="nav-footer">
+						</ul>
+					</div>
+					<div class="col-sm-6 col-md-3 pt-2">
+						<a asp-action="ProductsByCategory" asp-route-CategoryId="10" asp-controller="Product" style="color:black"><h5>Blouse</h5></a>
+						<ul class="nav-footer">
+						</ul>
+					</div>
 				</div>
 			</div>
-		</div>
-
 		<div class="container-fluid">
 			<div class="divider"></div>
 		</div>
 
+		}
 		<div class="container">
 			<div class="row">
 				<div class="col-md-6 text-center text-md-left mt-2 mb-3 pt-1">

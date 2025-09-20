@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.General;
 
 namespace OnlineShoppingStore.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext() : base()
         {
@@ -38,6 +38,16 @@ namespace OnlineShoppingStore.Data
 
 
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<CartItem>()
+                .HasOne(ci => ci.Product)
+                .WithMany(p => p.CartItems)
+                .HasForeignKey(ci => ci.ProductId)
+                .OnDelete(DeleteBehavior.Cascade); 
+        }
 
 
 
