@@ -3,35 +3,7 @@
 }
 
 <div class="d-flex">
-    <!-- Sidebar -->
-    <div class="bg-dark text-white p-3 vh-100" style="width: 250px;">
-        <h4 class="text-center mb-4">Admin Panel</h4>
-        <ul class="nav flex-column">
-            <li class="nav-item mb-2">
-                <a asp-action="AddProduct" asp-controller="Admin" class="nav-link text-white">➕ Add Product</a>
-            </li>
-            <li class="nav-item mb-2">
-                <a asp-action="SearchForProduct" asp-controller="Admin"  class="nav-link text-white">✏️ Update Product</a>
-            </li>
-            <li class="nav-item mb-2">
-                <a asp-action="SearchForProduct" asp-controller="Admin"  class="nav-link text-white">🗑️ Search For Product</a>
-            </li>
-            <hr class="bg-light" />
-            <li class="nav-item mb-2">
-                <a asp-action="ShowAllOrders" asp-controller="Order" class="nav-link text-white">📋 Show All Orders</a>
-            </li>
-         @*    <li class="nav-item mb-2">
-                <a asp-action="ShowOrderDetails" asp-controller="Admin" asp-route-orderId="1" class="nav-link text-white">🔍 Order Details</a>
-            </li> *@
-          @*   <li class="nav-item mb-2">
-                <a asp-action="UpdateOrderStatus" asp-controller="Admin" asp-route-orderId="1" class="nav-link text-white">🔄 Update Order</a>
-            </li> *@
-            <hr class="bg-light" />
-            <li class="nav-item mb-2">
-                <a asp-action="GetAllCustomers" asp-controller="Customer" class="nav-link text-white">👤 Show All Customers</a>
-            </li>
-        </ul>
-    </div>
+   
 
     <!-- Main Content -->
     <div class="flex-grow-1 p-4">
@@ -50,7 +22,7 @@
             <div class="col-md-4">
                 <div class="card shadow-sm text-center">
                     <div class="card-body">
-                        <a asp-action="ShowAllOrders" asp-controller="Order" class="card-title">Orders</a>
+                        <a asp-action="ShowAllOrders" asp-controller="Admin" class="card-title">Orders</a>
                         <p class="text-muted">All Orders In Our Store.</p>
                     </div>
                 </div>
@@ -59,7 +31,7 @@
             <div class="col-md-4">
                 <div class="card shadow-sm text-center">
                     <div class="card-body">
-                       <a asp-action="GetAllCustomers" asp-controller="Customer">Customers</a>
+                       <a asp-action="GetAllCustomers" asp-controller="Admin">Customers</a>
                         <p class="text-muted">View All Customers.</p>
                     </div>
                 </div>

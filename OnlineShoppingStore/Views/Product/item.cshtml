@@ -1,86 +1,165 @@
 ﻿@using OnlineShoppingStore.ViewModel.ProductViewModel;
 @model ProductCartCartItemViewModelDiscount
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Aurum - Bootstrap 4 Ecommerce Template</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>@Model.Name - Product Details</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" href="images/favicon.ico">
     <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
     <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
     <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        body {
+            font-family: "Segoe UI", sans-serif;
+            background: #f9fafc;
+            color: #222;
+        }
+
+        .product-wrapper {
+            background: #fff;
+            border-radius: 14px;
+            padding: 50px;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.08);
+            margin-top: 60px;
+        }
+
+        .product-image img {
+            max-height: 480px; /* bigger image */
+            width: 100%;
+            object-fit: contain;
+            border-radius: 12px;
+            background: #fafafa;
+            padding: 16px;
+            border: 1px solid #eee;
+        }
+
+        .product-title {
+            font-size: 2.4rem; /* much bigger */
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .product-price {
+            font-size: 1.9rem; /* much bigger */
+            font-weight: 700;
+            color: goldenrod;
+            margin-bottom: 25px;
+        }
+
+        .product-description {
+            font-size: 1.15rem;
+            color: #444;
+            margin-bottom: 25px;
+            line-height: 1.7;
+        }
+
+        .product-brand {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .quantity-box {
+            max-width: 180px;
+        }
+
+        .btn-add {
+            
+            font-size: 1.2rem; /* bigger button */
+            border-radius: 10px;
+            font-weight: 500;
+        }
+
+        .discount-box {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid #eee;
+        }
+
+            .discount-box h6 {
+                font-size: 1.2rem;
+                font-weight: 600;
+            }
+
+            .discount-box input {
+                font-size: 1rem;
+                padding: 12px;
+            }
+
+            .discount-box button {
+                font-size: 1.05rem;
+                padding: 12px;
+            }
+    </style>
 </head>
 <body>
-
-    <section class="featured-block text-center">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6 text-center">
-                    <div class="product-image mt-3">
-                        <img class="img-fluid" src="~/images/Products/@Model.ImageUrl">
-                    </div>
-                    <div class="product-thumbnails">
-                    </div>
+    <div class="container">
+        <div class="row justify-content-center">
+            @if (ViewBag.temp==true)
+            {
+                <div id="success-message" class="alert alert-success text-center">
+                    @TempData["Message"]
                 </div>
-                <div class="col-md-6 mt-5 mt-md-2 text-center text-md-left">
+            }
 
-                    <h2 class="mb-3 mt-0">@Model.Name</h2>
+            <div class="col-md-11 product-wrapper">
+                <div class="row">
+                    <!-- Left: Image -->
+                    <div class="col-md-6 text-center product-image mb-4 mb-md-0">
+                        <img src="~/images/Products/@Model.ImageUrl" alt="@Model.Name" />
+                    </div>
 
-                    <p class="lead mt-2 mb-3 primary-color">@Model.Price</p>
+                    <!-- Right: Details -->
+                    <div class="col-md-6">
+                        <h1 class="product-title">@Model.Name</h1>
+                        <p class="product-price">@Model.Price.ToString("C")</p>
+                        <p class="product-description"><strong>Description<br/></strong>@Model.Description</p>
+                        <p class="product-brand"><strong>Brand<br/></strong> @Model.Brand</p>
 
-                    <h5 class="mt-4">Description</h5>
-                    <p>@Model.Description</p>
+                        <!-- Add to Cart -->
+                        <form asp-action="AddToCart"
+                              asp-controller="Cart"
+                              asp-route-productId="@Model.ProductId"
+                              asp-route-Quantity="@Model.Quantity"
+                              asp-route-temp="true"
+                              class="d-flex align-items-end gap-3 flex-wrap">
 
-                    <h5 class="mt-5">Brand </h5>
-                    <p>@Model.Brand</p>
+                            <div class="quantity-box me-3">
+                                <label asp-for="Quantity" class="form-label small">Quantity</label>
+                                <input asp-for="Quantity" type="number" min="1" value="1" class="form-control form-control-lg" />
+                            <br />
+                            <br />
+                            <br />
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-add">
+                                <i class="fas fa-shopping-cart me-2"></i> Add To Cart
+                            </button>
+                        </form>
 
-                    <form asp-action="AddToCart"
-                          asp-controller="Cart"
-                          asp-route-productId="@Model.ProductId"
-                          asp-route-Quantity="@Model.Quantity"
-                            asp-route-temp="true">
-                        <input type="hidden" asp-route-temp="true" />
-                        <div>
-                            <label class="form form-control">
-                                Quantity
-                            </label>
-                            <input asp-for="Quantity" class="form form-control" type="number" min="1" value="1" />
+                        <script>
+                            // Hide success message after 7 seconds
+                            setTimeout(function () {
+                                var msg = document.getElementById("success-message");
+                                if (msg) {
+                                    msg.style.transition = "opacity 1s ease";
+                                    msg.style.opacity = "0";
+                                    setTimeout(() => msg.remove(), 1000); // remove fully after fade
+                                }
+                            }, 5000);
+                        </script>
 
-                        </div>
-                        <!-- زرار Add To Cart مع مسافة فوقه -->
-                        <button type="submit" class="btn btn-lg btn-primary view-btn mt-3">
-                            Add To Cart
-                        </button>
-                    </form>
 
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
-
-    <div class="divider"></div>
-    @* 
-    <section class="cta text-center">
-        <div class="container">
-            <h3 class="mt-0 mb-4">Enter Your Discount Code Now !</h3>
-            <form class="subscribe" asp-action="ApplyDiscount" asp-controller="Discount" asp-route-Code="@Model.Code" asp-route-Amount="@Model.Quantity" asp-route-productId="@Model.ProductId">
-                <div class="form-group row pt-3">
-                    <div class="col-sm-8 mb-3">
-                        <input type="text" class="form-control" id="inputName" placeholder="Your Code">
-                    </div>
-                    <div class="col-sm-4">
-                        <button type="submit" class="btn btn-lg btn-outline-primary">Apply Discount</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </section>
- *@
+    </div>
 
     <script src="js/jquery-3.1.1.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-
 </body>
 </html>

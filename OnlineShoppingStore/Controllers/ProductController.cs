@@ -17,7 +17,7 @@ namespace OnlineShoppingStore.Controllers
             return View("Catalog", ProductsList);
         }
 
-        public IActionResult Details(int ProductId)
+        public IActionResult Details(int ProductId,bool? temp=false)
         {
             Product product = _ProductRepository.GetById(ProductId);
             ProductCartCartItemViewModelDiscount viewModel = new ProductCartCartItemViewModelDiscount();
@@ -28,9 +28,10 @@ namespace OnlineShoppingStore.Controllers
             viewModel.Price = product.Price;
             viewModel.ImageUrl = product.ImageUrl;
             viewModel.Brand = product.Brand;
-
             viewModel.StockQuantity = product.StockQuantity;
 
+            ViewBag.temp = temp;
+            TempData["Message"] = "✅ Added to cart successfully!";
 
             return View("Item", viewModel);
         }

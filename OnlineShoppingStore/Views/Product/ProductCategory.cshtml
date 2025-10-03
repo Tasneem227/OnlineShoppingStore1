@@ -12,39 +12,67 @@
     <link rel="stylesheet" href="/css/style.css">
 
     <style>
-        .product-item img {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-            border-radius: 8px;
+        .product-card {
+            transition: all 0.3s ease;
+            border-radius: 12px;
         }
 
-        .product-section {
-            margin-bottom: 60px;
+            .product-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+            }
+
+            .product-card img {
+                height: 220px;
+                object-fit: cover;
+                border-radius: 12px 12px 0 0;
+            }
+
+        .price {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #28a745;
+        }
+
+        .btn-buy {
+            border-radius: 20px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="product-section">
-            <h2 class="mb-4">Products</h2>
-            <div class="row">
-                @foreach (var product in Model)
-                {
-                    <div class="col-md-3 col-lg-3 col-sm-6 col-12 col-product product-item">
-                        <figure>
-                            <img class="img-fluid" src="~/images/Products/@product.ImageUrl" alt="@product.Name">
-                        </figure>
+    <div class="container py-5">
+        <h2 class="mb-5 text-center fw-bold">🛍️ Our Products</h2>
 
-                        <h4 class="mb-1">
-                            <a asp-action="Details" asp-controller="Product" asp-route-ProductId="@product.ProductId">
-                                @product.Name
-                            </a>
-                        </h4>
-                        <p><span class="emphasis">@product.Price</span></p>
+        <div class="row">
+            @foreach (var product in Model)
+            {
+                <div class="col-md-4 col-lg-3 col-sm-6 mb-4">
+                    <!-- vertical spacing -->
+                    <div class="card product-card shadow-sm h-100">
+                        <img src="~/images/Products/@product.ImageUrl"
+                             class="card-img-top" alt="@product.Name">
+
+                        <div class="card-body text-center">
+                            <h5 class="card-title">
+                                <a asp-action="Details" asp-controller="Product"
+                                   asp-route-ProductId="@product.ProductId"
+                                   class="text-decoration-none text-dark fw-semibold">
+                                    @product.Name
+                                </a>
+                            </h5>
+                            <p class="price mb-3">@product.Price.ToString("C")</p>
+
+                            <div class="d-grid">
+                                <a asp-action="Details" asp-controller="Product"
+                                   asp-route-ProductId="@product.ProductId"
+                                   class="btn btn-primary btn-buy">
+                                    <i class="fas fa-shopping-cart me-1"></i> View Details
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                }
-            </div>
+                </div>
+            }
         </div>
     </div>
 

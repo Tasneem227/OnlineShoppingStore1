@@ -102,6 +102,10 @@ public class AccountController : Controller
                 if (check)
                 {
                     await signInManager.SignInAsync(appuser, loginUser.RememberMe);
+                    if (await UserManager.IsInRoleAsync(appuser, "Admin"))
+                    {
+                        return RedirectToAction("DashBoard", "Admin");
+                    }
                     return RedirectToAction("Index", "Home");
                 }
                 ModelState.AddModelError("", "Wrong Password ");

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using OnlineShoppingStore.ViewModel.AdminViewModel;
 
 namespace OnlineShoppingStore.Controllers;
@@ -7,15 +8,21 @@ public class AdminController : Controller
 {
     private readonly IProductRepository ProductRepository;
     private readonly ICategoryRepository CategoryRepository;
+    private readonly IOrderRepository _OrderRepository;
+    private readonly ICustomerRepository _CustomerRepository;
     private readonly IMapper Mapper;
 
     public AdminController(IProductRepository productRepository,
                             ICategoryRepository categoryRepository,
+                            IOrderRepository orderRepository,
+                            ICustomerRepository CustomerRepository,
                             IMapper mapper
         )
     {
         ProductRepository = productRepository;
         CategoryRepository = categoryRepository;
+        _OrderRepository = orderRepository;
+        _CustomerRepository = CustomerRepository;
         Mapper = mapper;
     }
     public IActionResult DashBoard()
@@ -115,7 +122,6 @@ public class AdminController : Controller
         else if (!string.IsNullOrEmpty(name))
         {
             products = ProductRepository.GetByName(name);
-
         }
 
         return View(products);
@@ -123,19 +129,33 @@ public class AdminController : Controller
 
     public IActionResult ShowAllOrders()
     {
-        return View();
+        var OrderCustomer = _OrderRepository.GetAllOrders();
+        return View("ShowOrders", OrderCustomer);
     }
-    public IActionResult ShowOrderDetails(int orderId)
+    public  IActionResult UpdateStatus(Order order)
     {
-        return View();
+        _OrderRepository.UpdateStatus(order);
+        _OrderRepository.SaveChanges();
+        return RedirectToAction("ShowAllOrders");
     }
-    public IActionResult UpdateOrderStatus(int orderId)
+
+    public IActionResult SearchForOrder(int? OrderId)
     {
-        return View();
+        if (OrderId == null)
+        {
+            return View("ShowOrders", new List<Order>());
+        }
+        var order = _OrderRepository.SearchForOrder((int)OrderId);
+        if (order != null)
+        {
+            return View("ShowOrders", order);
+        }
+        return View("ShowOrders", new List<Order>());
     }
-    public IActionResult ShowAllUsers()
+    public IActionResult GetAllCustomers()
     {
-        return View();
+        var list = _CustomerRepository.GetAllCustomers();
+        return View("AllCustomers", list);
     }
     public IActionResult ShowAllProducts()
     {

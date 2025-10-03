@@ -14,9 +14,5 @@ public class CustomerController : Controller
         return View();
     }
 
-    public IActionResult GetAllCustomers()
-    {
-       var list = _CustomerRepository.GetAllCustomers();
-        return View("AllCustomers", list);
-    }
+    
 }

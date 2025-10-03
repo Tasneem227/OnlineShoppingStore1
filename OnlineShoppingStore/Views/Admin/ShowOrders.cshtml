@@ -1,0 +1,68 @@
+﻿@model List<Order>
+
+
+@{
+    ViewData["Title"] = "All Orders";
+    var statuses =new SelectList(Enum.GetValues(typeof(OrderStatus)).Cast<OrderStatus>());
+}
+
+<div class="container mt-5">
+    <div class="mb-4">
+        <form asp-action="SearchForOrder" method="get" class="d-flex">
+            <input name="OrderId" placeholder="Enter Order ID" required /> &nbsp;
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+    </div>
+
+    <table class="table table-bordered table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Order Id</th>
+                <th>Full Name</th>
+                <th>Customer Id</th>
+                <th>Order Date</th>
+                <th>Total items</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var order in Model)
+               {
+                    <tr>
+                        <td>@order.OrderId</td>
+                        <td>@order.Customer.FirstName @order.Customer.LastName</td>
+                        <td>@order.CustomerId</td>
+                        <td>@order.OrderDate.ToString("yyyy-MM-dd")</td>
+                        <td>@order.TotalAmount</td>
+
+                        <td>
+                            <form asp-action="UpdateStatus" asp-controller="Admin" method="post" style="display:inline;">
+                                <input type="hidden" name="orderId" value="@order.OrderId" />
+
+                                <div >
+                                    <label asp-for="@order.Status" class="form-label">Order Status &nbsp; </label>
+                                    <select asp-for="@order.Status" asp-items="statuses" class="form-select form-select-lg border rounded shadow-sm">
+                                    </select>
+                                </div>
+                                <input type="hidden" asp-for="@order.OrderId" />
+                                <input type="hidden" asp-for="@order.CustomerId" />
+                                <input type="hidden" asp-for="@order.OrderDate" />
+                                <input type="hidden" asp-for="@order.TotalAmount" />
+                                <input type="hidden" asp-for="@order.Customer" />
+                                <button type="submit" class="btn btn-sm btn-success mt-2">Update</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="7" class="text-center text-muted">No orders found.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
