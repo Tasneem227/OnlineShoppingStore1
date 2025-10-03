@@ -14,17 +14,10 @@ namespace OnlineShoppingStore.Repository
             this._Context = context;
         }
 
-        public OrderCustomerViewModel GetAllOrders()
+        public List<Order> GetAllOrders()
         {
-            OrderCustomerViewModel result = new OrderCustomerViewModel();
-            var list = _Context.Orders.ToList();
-            result.orderlist= list;
-            foreach (var item in list) { 
+            return _Context.Orders.Include(c=>c.Customer).ToList();
             
-                result.FirstName = _Context.Customers.FirstOrDefault(e=>e.CustomerId==item.CustomerId).FirstName;
-                result.LastName = _Context.Customers.FirstOrDefault(e => e.CustomerId == item.CustomerId).LastName;
-            }
-            return result ;
         }
         public void AddOrder(CartItem[] items, string? userid)
         {
@@ -38,7 +31,7 @@ namespace OnlineShoppingStore.Repository
             }
 
                 order.OrderDate = DateTime.Now;
-                order.Status = "";
+                order.Status = OrderStatus.Processing;
                 order.TotalAmount = totalamount;
                 int customerId = _Context.Customers.FirstOrDefault(e => e.UserId == userid).CustomerId;
             order.CustomerId = customerId;
@@ -57,6 +50,31 @@ namespace OnlineShoppingStore.Repository
             }
 
         }
+
+        public List<Order> GetOrdersByCustomerId(string? userId)
+        {
+            var user = _Context.Customers.Include(u=>u.Orders).FirstOrDefault(e => e.UserId == userId);
+            if (user == null|| user.Orders==null) {
+                return new List<Order>();
+        }
+                return _Context.Orders
+                    .Where(o => o.CustomerId == user.CustomerId)
+                    .Include(o => o.OrderItems)
+                    .ThenInclude(oi => oi.Product)
+                    .OrderByDescending(o => o.OrderDate)
+                    .ToList();
+            
+        }
+        public void UpdateStatus(Order order)
+        {
+            _Context.Orders.Update(order);
+        }
+        public List<Order> SearchForOrder(int OrderId)
+        {
+            return _Context.Orders.Include(c=>c.Customer).Where(o => o.OrderId == OrderId).ToList();
+
+        }
+
         public void SaveChanges() => _Context.SaveChanges();
 
     }

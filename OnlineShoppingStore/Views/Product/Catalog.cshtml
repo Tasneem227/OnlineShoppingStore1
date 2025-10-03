@@ -1,138 +1,113 @@
 ﻿@model List<Product>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8">
-	<title>Aurum - Bootstrap 4 Ecommerce Template</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-	<link rel="shortcut icon" href="/images/favicon.ico">
-	<link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
-	<link rel="stylesheet" href="/css/bootstrap-slider.min.css">
+    <meta charset="utf-8">
+    <title>Products</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+    <link rel="stylesheet" href="/css/style.css">
 
-	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-	<script src="js/bootstrap-slider.min.js"></script>
-	<link rel="stylesheet" href="css/style.css">
+    <style>
+        .product-card {
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+            border-radius: 12px;
+        }
 
-	<style>
-		.product-item img {
-			width: 100%;
-			height: 250px;
-			object-fit: cover;
-			border-radius: 8px;
-		}
-	</style>
+            .product-card img {
+                height: 230px;
+                object-fit: cover;
+                border-radius: 12px 12px 0 0;
+            }
+    </style>
 </head>
 <body>
+    <div class="container py-5">
+        <h2 class="mb-5 text-center fw-bold">🛍️ Our Products</h2>
 
-	<div class="container">
-		<div class="row">
-			<!-- خليت المنتجات تاخد الصفحة كلها -->
-			<div class="col-12">
-				<section class="products">
-					<div class="container">
+        <div class="row" id="productsContainer">
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                <div class="col-md-4 col-lg-3 col-sm-6 product-item d-none">
+                    <div class="card product-card shadow-sm h-100">
+                        <img src="~/images/Products/@Model[i].ImageUrl" class="card-img-top" alt="@Model[i].Name" />
+                        <div class="card-body text-center">
+                            <h5 class="card-title">@Model[i].Name</h5>
+                            <p class="text-success fw-bold">@Model[i].Price.ToString("C")</p>
+                            <a asp-action="Details" asp-controller="Product" asp-route-ProductId="@Model[i].ProductId"
+                               class="btn btn-primary btn-sm">
+                                <i class="fas fa-shopping-cart me-1"></i> View
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
 
-						<div class="row" id="productsContainer">
-							@for (int i = 0; i < Model.Count; i++)
-							{
-								<div class="col-md-3 col-lg-3 col-sm-6 col-12 col-product product-item @(i >= 16 ? "d-none" : "")">
-									<figure>
-										<img class="img-fluid" src="~/images/Products/@Model[i].ImageUrl">
-										<figcaption>
-											<div class="thumb-overlay">
-												<button class="btn btn-outline-success"
-														onclick="addToCart(@Model[i].ProductId, this)">
-													Add To Cart
-												</button>
-											</div>
-										</figcaption>
-									</figure>
+        <!-- Pagination -->
+        <nav aria-label="Page navigation" class="mt-5">
+            <ul class="pagination justify-content-center" id="pagination"></ul>
+        </nav>
+    </div>
 
-									<h4 class="mb-1">
-										<a asp-action="Details" asp-controller="Product" asp-route-ProductId="@Model[i].ProductId">@Model[i].Name</a>
-									</h4>
-									<p><span class="emphasis">@Model[i].Price</span></p>
-								</div>
-							}
-						</div>
+    <script src="/js/jquery-3.1.1.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
 
-						<!-- زرار المزيد -->
-						<div class="text-center mt-4">
-							<button id="loadMoreBtn" class="btn btn-lg btn-primary">
-								More <i class="fas fa-plus ml-2"></i>
-							</button>
-						</div>
+    <script>
+        const itemsPerPage = 12;
+        let currentPage = 1;
 
-					</div>
-				</section>
-			</div>
-		</div>
-	</div>
+        function showPage(page) {
+            const products = document.querySelectorAll(".product-item");
+            const totalItems = products.length;
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
 
-	<div class="divider"></div>
+            products.forEach((product, index) => {
+                product.classList.add("d-none");
+                if (index >= (page - 1) * itemsPerPage && index < page * itemsPerPage) {
+                    product.classList.remove("d-none");
+                }
+            });
 
-	<section class="cta text-center">
-		<div class="container">
-			<h3 class="mt-0 mb-4">Sign up now to save 10% on your first order</h3>
-			<form class="subscribe">
-				<div class="form-group row pt-3">
-					<div class="col-sm-8 mb-3">
-						<input type="text" class="form-control" id="inputName" placeholder="Your Name">
-					</div>
-					<div class="col-sm-4">
-						<button type="submit" class="btn btn-lg btn-outline-primary">Sign me up</button>
-					</div>
-				</div>
-			</form>
-		</div>
-	</section>
+            renderPagination(totalPages, page);
+        }
 
-	<!-- Scripts -->
-	<script src="/js/jquery-3.1.1.min.js"></script>
-	<script src="/bootstrap/js/bootstrap.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+        function renderPagination(totalPages, page) {
+            const pagination = document.getElementById("pagination");
+            pagination.innerHTML = "";
 
-	<script>
-		function addToCart(productId, btn) {
-			fetch(`/Cart/AddToCart?productId=${productId}&Quantity=1`, {
-				method: "POST"
-			})
-			.then(response => {
-				if (response.ok) {
-					btn.innerText = "Added Successfully ✅";
-					setTimeout(() => {
-						btn.innerText = "Add To Cart";
-					}, 2000);
-				} else {
-					btn.innerText = "Error ❌";
-				}
-			});
-		}
+            // Previous button
+            pagination.innerHTML += `
+                <li class="page-item ${page === 1 ? "disabled" : ""}">
+                    <a class="page-link" href="#" onclick="showPage(${page - 1})">Previous</a>
+                </li>
+            `;
 
-		// Load More Logic
-		let itemsToShow = 16;
-		let currentCount = 16;
+            // Page numbers
+            for (let i = 1; i <= totalPages; i++) {
+                pagination.innerHTML += `
+                    <li class="page-item ${i === page ? "active" : ""}">
+                        <a class="page-link" href="#" onclick="showPage(${i})">${i}</a>
+                    </li>
+                `;
+            }
 
-		document.getElementById("loadMoreBtn").addEventListener("click", function () {
-			let btn = this;
-			btn.innerHTML = "Loading...";
+            // Next button
+            pagination.innerHTML += `
+                <li class="page-item ${page === totalPages ? "disabled" : ""}">
+                    <a class="page-link" href="#" onclick="showPage(${page + 1})">Next</a>
+                </li>
+            `;
+        }
 
-			setTimeout(() => {
-				let products = document.querySelectorAll(".product-item.d-none");
-
-				for (let i = 0; i < itemsToShow && i < products.length; i++) {
-					products[i].classList.remove("d-none");
-					currentCount++;
-				}
-
-				if (document.querySelectorAll(".product-item.d-none").length === 0) {
-					btn.style.display = "none";
-				} else {
-					btn.innerHTML = 'More <i class="fas fa-plus ml-2"></i>';
-				}
-			}, 500);
-		});
-	</script>
-
+        // Init
+        document.addEventListener("DOMContentLoaded", () => {
+            showPage(currentPage);
+        });
+    </script>
 </body>
 </html>

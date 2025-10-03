@@ -13,12 +13,15 @@ public class ProductRepository : IProductRepository
 
     public List<Product> GetAll()
     {
-        return _Context.Products.Include(c => c.Category).ToList();
+        return _Context.Products
+                  .Include(c => c.Category)
+                  .OrderBy(p => Guid.NewGuid()) // random order
+                  .ToList();
     }
 
     public Product GetById(int id)
     {
-        return _Context.Products.FirstOrDefault(p => p.ProductId == id);
+        return _Context.Products.Include(c=>c.Category).FirstOrDefault(p => p.ProductId == id);
     }
     public void Add(Product product)
     {
@@ -54,6 +57,7 @@ public class ProductRepository : IProductRepository
     {
         return _Context.Products.Include(c => c.Category)
                        .Where(p => p.Name.Contains(name))
+                       .Include(c => c.Category)
                        .ToList();
     }
 }

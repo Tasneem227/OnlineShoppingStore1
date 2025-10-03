@@ -11,6 +11,7 @@ public class ApplicationUser:IdentityUser
 
     [Required]
     public string Gender { get; set; }
+    public string Address { get; set; }
 
     public int cartid { get; set; }
     public DateOnly BirthDate { get; set; }

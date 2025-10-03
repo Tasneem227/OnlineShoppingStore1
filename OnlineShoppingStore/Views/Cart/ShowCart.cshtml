@@ -18,7 +18,7 @@
         .product-price {
             font-size: 1.25rem;
             font-weight: bold;
-            color: #007bff; /* نفس لون زرار Done */
+            color: #007bff; 
         }
 
         .btn-action {
@@ -45,7 +45,7 @@
                     <h2 class="mt-5 mb-3">Your Shopping Cart</h2>
                     <p class="mb-5"><span class="primary-color">@Model.Count</span> Items in your cart</p>
 
-                    <form asp-action="AddOrder" asp-controller="Order" method="post">
+                    <form asp-action="CheckOut" asp-controller="Order" method="post">
                         <table id="cart" class="table table-striped table-hover">
                             <thead class="thead-dark">
                                 <tr>
@@ -77,6 +77,10 @@
                                         </td>
 
                                         <!-- hidden inputs -->
+                                        <input type="hidden" asp-for="@Model[i].Product.Name">
+                                        <input type="hidden" asp-for="@Model[i].Product.ImageUrl">
+                                        <input type="hidden" asp-for="@Model[i].Product.Price">
+
                                         <input type="hidden" asp-for="@Model[i].Id" />
                                         <input type="hidden" asp-for="@Model[i].CartId" />
                                         <input type="hidden" asp-for="@Model[i].ProductId" />
@@ -87,15 +91,11 @@
                             </tbody>
                         </table>
 
-                        <div class="d-flex flex-column align-items-end">
+                        <div class="d-flex flex-column align-items-lg-start ">
                             <button type="submit" class="btn btn-outline-primary w-auto px-4 py-3 mb-3">
                                 Order
                             </button>
-                            <a asp-action="ShowCartItemsToEdit"
-                               asp-controller="Cart"
-                               class="btn btn-outline-primary w-auto px-4 py-3">
-                                🔄 Update Order
-                            </a>
+                            
                         </div>
                     </form>
 

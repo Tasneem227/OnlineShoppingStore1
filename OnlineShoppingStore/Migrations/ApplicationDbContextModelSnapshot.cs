@@ -258,6 +258,10 @@ namespace OnlineShoppingStore.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateOnly>("BirthDate")
                         .HasColumnType("date");
 
@@ -321,7 +325,7 @@ namespace OnlineShoppingStore.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<int?>("cartid")
+                    b.Property<int>("cartid")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -495,9 +499,8 @@ namespace OnlineShoppingStore.Migrations
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("TotalAmount")
                         .HasColumnType("decimal(18,2)");

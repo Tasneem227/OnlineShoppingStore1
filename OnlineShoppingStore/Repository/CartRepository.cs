@@ -11,15 +11,26 @@ public class CartRepository : ICartRepository
         _Context = context;
     }
 
-    public void AddToCart(int ProductId, int CartId, int Quantity)
+    public void AddToCart(int ProductId, int CartId, int quantity)
     {
         CartItem cartItem = new CartItem
         {
             ProductId = ProductId,
             CartId = CartId,
-            Quantity = Quantity
+            Quantity = quantity
 
         };
+        var c= _Context.CartsItems.Any(ci => ci.CartId == CartId && ci.ProductId == ProductId);
+        if (c==true)
+        {
+            var existingItem = _Context.CartsItems.FirstOrDefault(ci => ci.CartId == CartId && ci.ProductId == ProductId);
+            if (existingItem != null)
+            {
+                existingItem.Quantity += quantity;
+                _Context.SaveChanges();
+                return;
+            }
+        }
         _Context.CartsItems.Add(cartItem);
     }
     public void DeleteItem(int cartItemId, int cartid)
