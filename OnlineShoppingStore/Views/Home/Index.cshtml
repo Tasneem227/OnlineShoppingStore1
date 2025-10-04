@@ -1,8 +1,115 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿<!DOCTYPE html>
+<html lang="en">
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<head>
+	<meta charset="utf-8">
+	<title>Aurum - Bootstrap 4 Ecommerce Template</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<link rel="shortcut icon" href="images/favicon.ico">
+	<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+	<div id="carousel" class="carousel slide" data-ride="carousel">
+
+		<script>
+			$('.carousel').carousel({
+				interval: 200
+			})
+		</script>
+
+		<!-- Carousel Indicators -->
+		<ul class="carousel-indicators">
+			<li data-target="#carousel" data-slide-to="0" class="active"></li>
+			<li data-target="#carousel" data-slide-to="1"></li>
+			<li data-target="#carousel" data-slide-to="2"></li>
+		</ul>
+
+		<!-- Carousel -->
+		<div class="carousel-inner">
+
+			<!--Text only with background image-->
+			<div class="carousel-item active" style="background: url(images/cover-bg-1.jpg) center;">
+				<div class="container slide-textonly">
+					<div>
+						<h1>Modest</h1>
+						<p class="lead">Spring/Summer 2025 Collection</p>
+						<a asp-controller="Category" asp-action="AllCategories" class="btn btn-outline-secondary">View Collection</a>
+					</div>
+				</div>
+			</div>
+
+			<!--Text with image-->
+			<div class="carousel-item">
+				<div class="container slide-withimage">
+					<div class="description">
+						<h1>Modest</h1>
+						<p class="lead">Spring/Summer 2025 Collection</p>
+						<a asp-controller="Category" asp-action="AllCategories" class="btn btn-outline-secondary">View Collection</a>
+					</div>
+					<div class="slide-image">
+						<img src="images/placeholder-shoes.png" style="width: 80%;">
+					</div>
+				</div>
+			</div>
+
+			<!--Text only with background image-->
+			<div class="carousel-item" style="background: url(images/cover-bg-2.jpg) center;">
+				<div class="container slide-textonly">
+					<div>
+						<h1>Modest</h1>
+						<p class="lead">Spring/Summer 2025 Collection</p>
+						<a asp-controller="Category" asp-action="AllCategories" class="btn btn-outline-secondary">View Collection</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<section class="collections text-center ">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="collection col-md-6 alt-background">
+					<div class="container container-right text-center">
+						<div>
+							<h5>Dresses</h5>
+							<p class="lead">Spring/Summer 2025 Collection</p>
+							<a asp-action="ProductsByCategory" asp-controller="Product" asp-route-CategoryId="2" class="btn btn-outline-secondary">Browse Dresses</a>
+						</div>
+					</div>
+				</div>
+				<div class="collection col-md-6 bg-secondary inverted">
+					<div class="container container-left text-center">
+						<div>
+							><h5>T-Shirts</h5>
+							<p class="lead">Spring/Summer 2025 Collection</p>
+							<a asp-action="ProductsByCategory" asp-controller="Product" asp-route-CategoryId="1" class="btn btn-outline-white">Browse T-Shirts</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="featured-block text-center">
+		<div class="container">
+			<div class="row justify-center">
+				<div class="col-md-6 text-center">
+					<img class="mt-4 mb-4 img-fluid" src="images/placeholder-jacket.png" style="width: 100%;">
+				</div>
+				<div class="col-md-6 text-center text-md-left">
+					<h2 class="mb-3">Spring/Summer Collection 2025</h2>
+					
+					<a asp-controller="Product" asp-action="ShowAll" class="btn btn-md btn-outline-primary mt-3">Shop Now</a>
+				</div>
+			</div>
+		</div>
+		</div>
+	</section>
+
+	
+
+
+</body>
+</html>

@@ -1,0 +1,113 @@
+﻿@model List<Product>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Products</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+    <link rel="stylesheet" href="/css/style.css">
+
+    <style>
+        .product-card {
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+            border-radius: 12px;
+        }
+
+            .product-card img {
+                height: 230px;
+                object-fit: cover;
+                border-radius: 12px 12px 0 0;
+            }
+    </style>
+</head>
+<body>
+    <div class="container py-5">
+        <h2 class="mb-5 text-center fw-bold"> Our Products</h2>
+
+        <div class="row" id="productsContainer">
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                <div class="col-md-4 col-lg-3 col-sm-6 product-item d-none">
+                    <div class="card product-card shadow-sm h-100">
+                        <img src="~/images/Products/@Model[i].ImageUrl" class="card-img-top" alt="@Model[i].Name" />
+                        <div class="card-body text-center">
+                            <h5 class="card-title">@Model[i].Name</h5>
+                            <p class="text-success fw-bold">@Model[i].Price.ToString("C")</p>
+                            <a asp-action="Details" asp-controller="Product" asp-route-ProductId="@Model[i].ProductId"
+                               class="btn btn-primary btn-sm">
+                                <i class="fas fa-shopping-cart me-1"></i> View
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- Pagination -->
+        <nav aria-label="Page navigation" class="mt-5">
+            <ul class="pagination justify-content-center" id="pagination"></ul>
+        </nav>
+    </div>
+
+    <script src="/js/jquery-3.1.1.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+
+    <script>
+        const itemsPerPage = 12;
+        let currentPage = 1;
+
+        function showPage(page) {
+            const products = document.querySelectorAll(".product-item");
+            const totalItems = products.length;
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+            products.forEach((product, index) => {
+                product.classList.add("d-none");
+                if (index >= (page - 1) * itemsPerPage && index < page * itemsPerPage) {
+                    product.classList.remove("d-none");
+                }
+            });
+
+            renderPagination(totalPages, page);
+        }
+
+        function renderPagination(totalPages, page) {
+            const pagination = document.getElementById("pagination");
+            pagination.innerHTML = "";
+
+            // Previous button
+            pagination.innerHTML += `
+                <li class="page-item ${page === 1 ? "disabled" : ""}">
+                    <a class="page-link" href="#" onclick="showPage(${page - 1})">Previous</a>
+                </li>
+            `;
+
+            // Page numbers
+            for (let i = 1; i <= totalPages; i++) {
+                pagination.innerHTML += `
+                    <li class="page-item ${i === page ? "active" : ""}">
+                        <a class="page-link" href="#" onclick="showPage(${i})">${i}</a>
+                    </li>
+                `;
+            }
+
+            // Next button
+            pagination.innerHTML += `
+                <li class="page-item ${page === totalPages ? "disabled" : ""}">
+                    <a class="page-link" href="#" onclick="showPage(${page + 1})">Next</a>
+                </li>
+            `;
+        }
+
+        // Init
+        document.addEventListener("DOMContentLoaded", () => {
+            showPage(currentPage);
+        });
+    </script>
+</body>
+</html>

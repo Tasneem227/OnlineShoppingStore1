@@ -1,3 +1,11 @@
+
+
+using OnlineShoppingStore.AutoMapper;
+using Microsoft.Extensions.DependencyInjection;
+using OnlineShoppingStore.Data;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+
 namespace OnlineShoppingStore
 {
     public class Program
@@ -8,6 +16,26 @@ namespace OnlineShoppingStore
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            {
+               options.UseSqlServer(builder.Configuration.GetConnectionString("cs"));
+            });
+
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+            .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
+            builder.Services.AddScoped<IProductRepository, ProductRepository>();
+            builder.Services.AddScoped<ICartRepository, CartRepository>();
+            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+            builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+            builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+
+           
+
+            //Auto Mapper Configurations
+            builder.Services.AddAutoMapper(typeof(MappingProfile));
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             var app = builder.Build();
 
@@ -21,9 +49,9 @@ namespace OnlineShoppingStore
 
             app.UseHttpsRedirection();
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
-
+            
             app.MapStaticAssets();
             app.MapControllerRoute(
                 name: "default",

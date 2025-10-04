@@ -1,0 +1,43 @@
+﻿@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="d-flex">
+   
+
+    <!-- Main Content -->
+    <div class="flex-grow-1 p-4">
+        <h2 class="mb-4">Welcome to Admin Dashboard</h2>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card shadow-sm text-center">
+                    <div class="card-body">
+                        <a asp-action="ShowAllProducts" asp-controller="Admin" class="card-title">Products</a>
+                        <p class="text-muted">Manage products in your store.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card shadow-sm text-center">
+                    <div class="card-body">
+                        <a asp-action="ShowAllOrders" asp-controller="Admin" class="card-title">Orders</a>
+                        <p class="text-muted">All Orders In Our Store.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card shadow-sm text-center">
+                    <div class="card-body">
+                       <a asp-action="GetAllCustomers" asp-controller="Admin">Customers</a>
+                        <p class="text-muted">View All Customers.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -12,7 +12,7 @@ namespace OnlineShoppingStore.Controllers
         {
             _logger = logger;
         }
-
+        
         public IActionResult Index()
         {
             return View();
@@ -27,6 +27,12 @@ namespace OnlineShoppingStore.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public IActionResult contact()
+        {
+            return View();
+
         }
     }
 }

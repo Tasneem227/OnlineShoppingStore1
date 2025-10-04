@@ -1,0 +1,81 @@
+﻿@model List<Order>
+@using OnlineShoppingStore.Enum
+
+@{
+    ViewBag.Title = "My Orders";
+}
+
+<div class="container mt-5">
+    <h2 class="mb-4 text-center fw-bold">📜 Order History</h2>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info text-center shadow-sm rounded">
+            You don’t have any orders yet.
+        </div>
+    }
+    else
+    {
+        int x = Model.Count+1;
+        
+        <div class="row g-4">
+            @foreach (var order in Model)
+            {
+                <div class="col-md-6">
+                    <div class="card shadow-lg border-0 rounded-4 h-100">
+                        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center rounded-top-4">
+                            
+                            <span class="fw-bold">Order #@(--x)</span>
+                            <span class="badge rounded-pill px-3 py-2 fs-6
+                                @(order.Status switch {
+                                    OrderStatus.Processing => "bg-warning text-dark",
+                                    OrderStatus.Shipped    => "bg-info text-dark",
+                                    OrderStatus.Delivered  => "bg-success",
+                                    OrderStatus.Failed     => "bg-danger",
+                                    OrderStatus.Returned   => "bg-secondary",
+                                    _ => "bg-light text-dark"
+                                })">
+                                @order.Status
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-1"><strong>Date:</strong> @order.OrderDate.ToString("dd MMM yyyy")</p>
+                            <p class="mb-3"><strong>Items Number:</strong> <span class="text-success fw-bold">@order.TotalAmount</span></p>
+
+                            <div class="table-responsive">
+                                <table class="table table-sm align-middle mb-0">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Image</th>
+                                            <th>Qty</th>
+                                            <th>Price</th>
+                                            <th>Subtotal</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in order.OrderItems)
+                                        {
+                                            <tr>
+                                                <td>@item.Product?.Name</td>
+                                                <td>
+                                                    <img src="~/images/Products/@item.Product?.ImageUrl"
+                                                         width="50" height="50"
+                                                         class="rounded border" />
+                                                </td>
+                                                <td>@item.Quantity</td>
+                                                <td>@item.Product?.Price$</td>
+                                                <td>@((item.Product?.Price ?? 0) * item.Quantity)$</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                       
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

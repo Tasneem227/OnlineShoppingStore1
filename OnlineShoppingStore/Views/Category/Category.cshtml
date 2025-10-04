@@ -1,0 +1,95 @@
+﻿@model List<Category>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Categories</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+    <link rel="stylesheet" href="/css/style.css">
+
+    <style>
+        .category-showcase {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            margin-bottom: 40px; /* 👈 added vertical distance */
+        }
+
+            .category-showcase img {
+                width: 100%;
+                height: 260px;
+                object-fit: cover;
+                filter: brightness(70%);
+                transition: transform 0.4s ease;
+            }
+
+            .category-showcase:hover img {
+                transform: scale(1.08);
+                filter: brightness(55%);
+            }
+
+        .category-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #fff;
+        }
+
+            .category-overlay h4 {
+                font-weight: bold;
+                font-size: 1.3rem;
+                margin-bottom: 12px;
+                text-shadow: 0 3px 8px rgba(0,0,0,0.7);
+            }
+
+            .category-overlay a {
+                background: rgba(255, 255, 255, 0.2);
+                backdrop-filter: blur(4px);
+                border-radius: 25px;
+                padding: 6px 18px;
+                font-size: 0.9rem;
+                color: #fff;
+                text-decoration: none;
+                transition: background 0.3s ease;
+            }
+
+                .category-overlay a:hover {
+                    background: rgba(255, 255, 255, 0.35);
+                }
+    </style>
+</head>
+<body>
+    <div class="container py-5">
+        <h2 class="mb-5 text-center fw-bold"> Explore Our Categories</h2>
+
+        <div class="row">
+            @foreach (var category in Model)
+            {
+                <div class="col-md-4 col-lg-3 col-sm-6">
+                    <div class="category-showcase shadow-sm">
+                        <img src="~/images/Categories/@category.Description" alt="@category.Name" />
+                        <div class="category-overlay">
+                            <h4>@category.Name</h4>
+                            <a asp-action="ProductsByCategory"
+                               asp-controller="Product"
+                               asp-route-CategoryId="@category.CategoryId">
+                                Browse <i class="fas fa-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <script src="/js/jquery-3.1.1.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,235 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Online Shopping Store</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <!-- Header / Navbar -->
+    <section class="header text-center">
+        <nav class="navbar navbar-expand-lg navbar-light navbar-custom">
+            <div class="container">
+                 @if (!User.IsInRole("Admin"))
+                        {
+                <a class="navbar-brand" asp-action="Index" asp-controller="Home">
+                    <i class="fas fa-shopping-bag primary-color mr-1"></i> Modest
+                </a>
+                        }
+                @if (User.IsInRole("Admin"))
+                {
+                    <a class="navbar-brand">
+                        <i class="fas fa-shopping-bag primary-color mr-1"></i> Modest
+                    </a>
+                }
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-1"
+                        aria-controls="navbar-1" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse justify-content-end" id="navbar-1">
+                    <ul class="navbar-nav mt-2 mt-md-0">
+                        @if (!User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item active">
+                                <a class="nav-link" asp-action="Index" asp-controller="Home">Home</a>
+                            </li>
+                        }
+
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-action="DashBoard" asp-controller="Admin">Dashboard</a>
+                            </li>
+                        }
+
+                        @if (!User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item"><a class="nav-link" asp-action="Contact" asp-controller="Home">Contact</a></li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Pages
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" asp-action="Index" asp-controller="Home">Homepage</a>
+                                    <a class="dropdown-item" asp-action="AllCategories" asp-controller="Category">Category</a>
+                                    <a class="dropdown-item" asp-action="ShowAll" asp-controller="Product">Catalog</a>
+                                    @if (User.IsInRole("Customer"))
+                                    {
+                                        <a class="dropdown-item" asp-action="ShowCartItems" asp-controller="Cart">Cart</a>
+                                        <a class="dropdown-item" asp-action="CustomerOrders" asp-controller="Order">Orders</a>
+                                    }
+                                    <a class="dropdown-item" asp-action="Contact" asp-controller="Home">Contact</a>
+                                </div>
+                            </li>
+                        }
+
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Customer"))
+                        {
+                            <li class="nav-item"><a class="nav-link" asp-action="CustomerOrders" asp-controller="Order">Orders</a></li>
+                        }
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item"><a class="nav-link" asp-action="Profile" asp-controller="Account">Profile</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-action="SignOut" asp-controller="Account">Log Out</a></li>
+                        }
+                        else
+                        {
+                            <li class="nav-item"><a class="nav-link" asp-action="Register" asp-controller="Account">Register</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-action="Login" asp-controller="Account">Log In</a></li>
+                        }
+
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Customer"))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link" asp-action="ShowCartItems" asp-controller="Cart" role="button">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </section>
+
+    <!-- Page Body -->
+    <!-- Page Body -->
+    @if (User.IsInRole("Admin"))
+    {
+        <div class="d-flex" style="min-height: 100vh;">
+            <!-- Sidebar -->
+            <div class="bg-dark text-white p-3 position-fixed" style="width: 250px; height: 100vh; overflow-y: auto;">
+                <h5 class="text-center mb-4">ADMIN PANEL</h5>
+                <ul class="nav flex-column">
+                    <li class="nav-item mb-2">
+                        <a asp-action="AddProduct" asp-controller="Admin" class="nav-link text-white">➕ Add Product</a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a asp-action="SearchForProduct" asp-controller="Admin" class="nav-link text-white">✏️ Update Product</a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a asp-action="SearchForProduct" asp-controller="Admin" class="nav-link text-white">🗑️ Search For Product</a>
+                    </li>
+                    <hr class="bg-light" />
+                    <li class="nav-item mb-2">
+                        <a asp-action="ShowAllOrders" asp-controller="Admin" class="nav-link text-white">📋 Show All Orders</a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a asp-action="GetAllCustomers" asp-controller="Admin" class="nav-link text-white">👤 Show All Customers</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Main Content -->
+            <div class="flex-grow-1 p-4 bg-light" style="margin-left: 250px;">
+                @RenderBody()
+            </div>
+        </div>
+    }
+    else
+    {
+        <!-- Normal layout for non-admin -->
+        <div class="p-4 bg-light">
+            @RenderBody()
+        </div>
+    }
+
+
+
+    <!-- Modern Footer -->
+    <footer class="footer bg-dark text-light pt-5 mt-5">
+        @if (!User.IsInRole("Admin"))
+        {
+            <div class="container">
+                <div class="row text-center text-md-left">
+                    <div class="col-sm-6 col-md-3 mb-4">
+                        <h5 class="text-uppercase mb-3">Shop by Category</h5>
+                        <ul class="list-unstyled footer-links">
+                            <li><a asp-action="ProductsByCategory" asp-route-CategoryId="1" asp-controller="Product">T-Shirts</a></li>
+                            <li><a asp-action="ProductsByCategory" asp-route-CategoryId="2" asp-controller="Product">Dress</a></li>
+                            <li><a asp-action="ProductsByCategory" asp-route-CategoryId="3" asp-controller="Product">Skirt</a></li>
+                            <li><a asp-action="ProductsByCategory" asp-route-CategoryId="4" asp-controller="Product">Shoes</a></li>
+                            <li><a asp-action="ProductsByCategory" asp-route-CategoryId="5" asp-controller="Product">Bag</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-6 col-md-3 mb-4">
+                        <h5 class="text-uppercase mb-3">More Categories</h5>
+                        <ul class="list-unstyled footer-links">
+                            <li><a asp-action="ProductsByCategory" asp-route-CategoryId="6" asp-controller="Product">Pants</a></li>
+                            <li><a asp-action="ProductsByCategory" asp-route-CategoryId="7" asp-controller="Product">Jackets</a></li>
+                            <li><a asp-action="ProductsByCategory" asp-route-CategoryId="8" asp-controller="Product">Accessories</a></li>
+                            <li><a asp-action="ProductsByCategory" asp-route-CategoryId="9" asp-controller="Product">Suit</a></li>
+                            <li><a asp-action="ProductsByCategory" asp-route-CategoryId="10" asp-controller="Product">Blouse</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-12 col-md-6 mb-4 text-center">
+                        <h5 class="text-uppercase mb-3">Stay Connected</h5>
+                        <p class="mb-3">Follow us on social media for the latest trends and offers.</p>
+                        <ul class="list-inline">
+                            <li class="list-inline-item"><a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a></li>
+                            <li class="list-inline-item"><a href="#" class="social-icon"><i class="fab fa-twitter"></i></a></li>
+                            <li class="list-inline-item"><a href="#" class="social-icon"><i class="fab fa-instagram"></i></a></li>
+                            <li class="list-inline-item"><a href="#" class="social-icon"><i class="fab fa-google"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="divider bg-secondary my-3" style="height:1px; opacity:0.2;"></div>
+        }
+        <div class="container text-center pb-3">
+            <p class="mb-1">&copy; @DateTime.Now.Year Modest Store. All Rights Reserved.</p>
+            <small class="text-muted">Designed by <a href="https://medialoot.com" target="_blank" class="text-light">Medialoot</a></small>
+        </div>
+    </footer>
+
+    <!-- Footer Styles -->
+    <style>
+        .footer-links li {
+            margin-bottom: 8px;
+        }
+
+        .footer-links a {
+            color: #bbb;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+            .footer-links a:hover {
+                color: #fff;
+            }
+
+        .social-icon {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            border-radius: 50%;
+            background: #444;
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+
+            .social-icon:hover {
+                background: #007bff;
+                color: #fff;
+            }
+    </style>
+
+    <!-- Scripts -->
+    <script src="/js/jquery-3.1.1.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+</body>
+</html>

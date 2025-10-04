@@ -1,0 +1,64 @@
+﻿@model List<Product>
+
+@{
+    ViewData["Title"] = "All Products";
+}
+
+<div class="container mt-5">
+    <h2 class="mb-4">All Products</h2>
+
+    <a asp-action="AddProduct" asp-controller="Admin" class="btn btn-success mb-3">➕ Add New Product</a>
+
+    <table class="table table-bordered table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Product Id</th>
+                <th>Name</th>
+                <th>Brand</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Category</th>
+                <th>Image</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.ProductId</td> <!-- If you have ProductId in real entity, use it instead -->
+                        <td>@item.Name</td>
+                        <td>@item.Brand</td>
+                        <td>@item.Price.ToString("C")</td>
+                        <td>@item.StockQuantity</td>
+                        <td>
+                            @if (item.Category != null)
+                            {
+                                @item.Category.Name
+                            }
+                            else
+                            {
+                                <span class="text-muted">N/A</span>
+                            }
+                        </td>
+                        <td>
+                            <img src="~/images/Products/@item.ImageUrl" alt="@item.Name" width="60" height="60" class="img-thumbnail" />
+                        </td>
+                        <td>
+                            <a asp-action="EditProduct" asp-controller="Admin" asp-route-productId="@item.ProductId" class="btn btn-warning btn-sm">✏️ Edit</a>
+                            <a onclick="return confirm('Are you sure you want to delete this product?');" asp-action="DeleteProduct" asp-controller="Admin" asp-route-productId="@item.ProductId" class="btn btn-danger btn-sm">🗑️ Delete</a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="8" class="text-center text-muted">No products found.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

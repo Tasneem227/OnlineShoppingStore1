@@ -11,9 +11,9 @@ public class Discount
     public DateTime EndDate { get; set; }
     public bool IsActive { get; set; }
 
-    public ICollection<Admin>? Admins = new List<Admin>();
+    public virtual ICollection<Admin>? Admins { get; set; } = new List<Admin>();
 
-    public ICollection<Product>? Products = new List<Product>();
+    public virtual ICollection<Product>? Products { get; set; } = new List<Product>();
 
 
 }

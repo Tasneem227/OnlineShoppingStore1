@@ -7,7 +7,7 @@ public class Cart
     public int CartId { get; set; }
     [ForeignKey("Customer")]
     public int CustomerId { get; set; }
-    public Customer Customer { get; set; }
-    public ICollection<CartItem>? CartItems { get; set; } = new List<CartItem>();
+    public virtual Customer? Customer { get; set; }
+    public virtual ICollection<CartItem>? CartItems { get; set; } = new List<CartItem>();
 
 }

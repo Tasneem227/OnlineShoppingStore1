@@ -10,18 +10,18 @@ public class Product
     public string Brand { get; set; }
     public string ImageUrl { get; set; }
 
-    public ICollection<Admin>? Admins = new List<Admin>();
+    public virtual ICollection<Admin>? Admins { get; set; } = new List<Admin>();
 
-    public ICollection<CartItem>? CartItems = new List<CartItem>();
+    public virtual ICollection<CartItem>? CartItems { get; set; } = new List<CartItem>();
 
-    public ICollection<Review>? Reviews = new List<Review>();
+    public virtual ICollection<Review>? Reviews { get; set; } = new List<Review>();
 
-    public ICollection<Discount>? Discounts = new List<Discount>();
+    public virtual ICollection<Discount>? Discounts { get; set; } = new List<Discount>();
 
-    public ICollection<OrderItem>? OrderItems = new List<OrderItem>();
+    public virtual ICollection<OrderItem>? OrderItems { get; set; } = new List<OrderItem>();
 
-    public ICollection<Order>? Orders = new List<Order>();
+    public virtual ICollection<Order>? Orders { get; set; } = new List<Order>();
     public int CategoryId { get; set; }
-    public Category Category { get; set; }
+    public virtual Category? Category { get; set; }
 
 }
