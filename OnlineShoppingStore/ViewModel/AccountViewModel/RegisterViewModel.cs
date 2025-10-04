@@ -35,7 +35,7 @@ namespace HospitalMS.ViewModel
         [MinLength(3, ErrorMessage = "Username must have more than 3 characters.")]
         [MaxLength(20, ErrorMessage = "Username cannot exceed 20 characters.")]
         [RegularExpression("^[a-zA-Z0-9_]+$", ErrorMessage = "Username can only contain letters, numbers, and underscores.")]
-        [Remote(action: "CheckUserName", controller: "Admin", ErrorMessage = "user name is used", AdditionalFields = "Id")]
+        [Remote(action: "CheckUserName", controller: "Account", ErrorMessage = "user name is used", AdditionalFields = "Id")]
         public string UserName { get; set; }
 
 
@@ -59,8 +59,8 @@ namespace HospitalMS.ViewModel
         [Display(Name = "Gender")]
         public string Gender { get; set; }
         [Required (ErrorMessage ="Image is required")]
-        [DataType(DataType.Upload)]
-        [FileExtensions(Extensions = "jpg,jpeg,png", ErrorMessage = "Image must be a JPG or PNG file.")]
+        
+        [FileExtensions(Extensions = "jpg,jpeg,png,webp", ErrorMessage = "Image must be a JPG , PNG , JPEG Or WEBP file.")]
         public string? Image { get; set; }
 
         [Required(ErrorMessage = "Address  is required.")]

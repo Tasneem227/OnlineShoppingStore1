@@ -60,8 +60,11 @@
                                     <a class="dropdown-item" asp-action="Index" asp-controller="Home">Homepage</a>
                                     <a class="dropdown-item" asp-action="AllCategories" asp-controller="Category">Category</a>
                                     <a class="dropdown-item" asp-action="ShowAll" asp-controller="Product">Catalog</a>
-                                    <a class="dropdown-item" asp-action="ShowCartItems" asp-controller="Cart">Cart</a>
-                                    <a class="dropdown-item" asp-action="CustomerOrders" asp-controller="Order">Orders</a>
+                                    @if (User.IsInRole("Customer"))
+                                    {
+                                        <a class="dropdown-item" asp-action="ShowCartItems" asp-controller="Cart">Cart</a>
+                                        <a class="dropdown-item" asp-action="CustomerOrders" asp-controller="Order">Orders</a>
+                                    }
                                     <a class="dropdown-item" asp-action="Contact" asp-controller="Home">Contact</a>
                                 </div>
                             </li>
