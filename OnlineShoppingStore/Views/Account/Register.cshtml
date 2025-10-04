@@ -10,7 +10,7 @@
     <div class="card shadow p-4 rounded-3" style="width: 450px;">
         <h3 class="text-center mb-4">Create an Account</h3>
 
-        <form asp-action="saveRegister" method="post" enctype="multipart/form-data">
+        <form asp-action="saveRegister" asp-controller="Account" method="post">
             <!-- Identity Fields -->
             <div class="mb-3">
                 <label asp-for="FName" class="form-label"></label>
@@ -41,8 +41,8 @@
             </div>
 
             <div class="mb-3">
-                <label asp-for="Image" class="form-label">Profile Picture</label>
-                <input  asp-for="Image" class="form-control form-control-sm" />
+                <label asp-for="Image"  class="form-label">Profile Picture</label>
+                <input type="file" asp-for="Image" class="form-control" />
                 <span asp-validation-for="Image" class="text-danger small"></span>
             </div>
             <div class="mb-3">

@@ -38,7 +38,6 @@ public class AccountController : Controller
     [HttpPost]
     public async Task<IActionResult> saveRegister(RegisterViewModel registerViewModel)
     {
-        ModelState.Remove("Image");
         if (ModelState.IsValid)
         {
             //Mapping

@@ -135,9 +135,12 @@
                             <br />
                             <br />
                             </div>
-                            <button type="submit" class="btn btn-primary btn-add">
-                                <i class="fas fa-shopping-cart me-2"></i> Add To Cart
-                            </button>
+                            @if (User.IsInRole("Customer"))
+                            {
+                                <button type="submit" class="btn btn-primary btn-add">
+                                    <i class="fas fa-shopping-cart me-2"></i> Add To Cart
+                                </button>
+                            }
                         </form>
 
                         <script>
